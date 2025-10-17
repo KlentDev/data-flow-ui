@@ -3,172 +3,200 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { ArrowRight, AlertTriangle, FileText, Clock, Users, Lock } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
 
 export function ChallengesSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   const challenges = [
-    {
-      icon: FileText,
-      title: "Paper-Based Systems",
-      description: "70% of land records remain in fragile paper format, vulnerable to damage and loss.",
-      impact: "Data vulnerability",
-      color: "from-blue-500/20 to-cyan-500/20",
-      borderColor: "hover:border-blue-400/50",
-      iconColor: "text-blue-600 dark:text-blue-400"
-    },
-    {
-      icon: Clock,
-      title: "Slow Processes",
-      description: "Manual verification takes 8+ weeks for simple property transfers and approvals.",
-      impact: "Inefficient workflows",
-      color: "from-amber-500/20 to-orange-500/20",
-      borderColor: "hover:border-amber-400/50",
-      iconColor: "text-amber-600 dark:text-amber-400"
-    },
-    {
-      icon: Lock,
-      title: "Fraud & Corruption",
-      description: "Lack of transparency enables document forgery and illegal property transfers.",
-      impact: "Security risks",
-      color: "from-red-500/20 to-rose-500/20",
-      borderColor: "hover:border-red-400/50",
-      iconColor: "text-red-600 dark:text-red-400"
-    },
-    {
-      icon: Users,
-      title: "Limited Access",
-      description: "Citizens face barriers to accessing and verifying their own property information.",
-      impact: "Exclusionary systems",
-      color: "from-purple-500/20 to-indigo-500/20",
-      borderColor: "hover:border-purple-400/50",
-      iconColor: "text-purple-600 dark:text-purple-400"
-    },
-    {
-      icon: AlertTriangle,
-      title: "Data Silos",
-      description: "Incompatible systems prevent integration and create information gaps across agencies.",
-      impact: "Fragmented data",
-      color: "from-yellow-500/20 to-amber-500/20",
-      borderColor: "hover:border-yellow-400/50",
-      iconColor: "text-yellow-600 dark:text-yellow-400"
-    },
-    {
-      icon: Users,
-      title: "Gender Inequality",
-      description: "Women own less than 20% of land globally due to systemic barriers.",
-      impact: "Social inequality",
-      color: "from-pink-500/20 to-rose-500/20",
-      borderColor: "hover:border-pink-400/50",
-      iconColor: "text-pink-600 dark:text-pink-400"
-    }
+    { icon: FileText, title: "Paper-Based Systems", description: "70% of land records remain in fragile paper format, vulnerable to damage and loss.", impact: "Data vulnerability", type: "red" },
+    { icon: Clock, title: "Slow Processes", description: "Manual verification takes 8+ weeks for simple property transfers and approvals.", impact: "Inefficient workflows", type: "clear" },
+    { icon: Lock, title: "Fraud & Corruption", description: "Lack of transparency enables document forgery and illegal property transfers.", impact: "Security risks", type: "red" },
+    { icon: Users, title: "Limited Access", description: "Citizens face barriers to accessing and verifying their own property information.", impact: "Exclusionary systems", type: "clear" },
+    { icon: AlertTriangle, title: "Data Silos", description: "Incompatible systems prevent integration and create information gaps across agencies.", impact: "Fragmented data", type: "red" },
+    { icon: Users, title: "Gender Inequality", description: "Women own less than 20% of land globally due to systemic barriers.", impact: "Social inequality", type: "clear" }
   ];
 
   return (
     <section
       id="challenges"
       ref={ref}
-      className="relative py-20 md:py-40 bg-background dark:bg-background overflow-hidden"
+      className="relative py-24 md:py-32 bg-gradient-to-b from-background via-background to-red-500/5 transition-colors duration-700 overflow-hidden"
     >
-      {/* Subtle background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/3 pointer-events-none" />
-      
+      {/* Background glow */}
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_left,hsla(0,100%,75%,0.15)_0%,transparent_70%)] opacity-50 dark:opacity-25" />
+
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <div className="flex flex-col 2xl:flex-row gap-10 2xl:gap-20">
-          {/* Left Column: Header */}
-          <div className="flex flex-col gap-6 2xl:max-w-lg">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-primary/20 to-primary/10 text-foreground px-4 py-2 rounded-full text-sm font-medium border border-primary/30 shadow-sm"
-            >
-              <AlertTriangle className="w-4 h-4" />
-              <span>The Challenges</span>
-            </motion.div>
-
-            <motion.h2
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7 }}
-              className="text-4xl md:text-5xl font-bold text-foreground leading-tight"
-            >
-              The Land Governance
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/80 mt-2">
-                Crisis Today
-              </span>
-            </motion.h2>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="text-lg text-foreground/70 leading-relaxed"
-            >
-              Traditional land management systems are failing citizens and governments alike, 
-              creating barriers to prosperity, security, and sustainable development.
-            </motion.p>
-          </div>
-
-          {/* Right Column: Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 2xl:gap-8 flex-1">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 xl:gap-20 items-start">
+          {/* Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1 order-2 lg:order-1">
             {challenges.map((challenge, index) => (
               <motion.div
                 key={challenge.title}
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
-                whileHover={{ 
-                  y: -8,
-                  scale: 1.02,
-                  transition: { duration: 0.3 }
-                }}
-                className="group relative bg-background dark:bg-background rounded-2xl p-6 border border-foreground/10 hover:shadow-xl transition-all duration-500 flex flex-col h-full backdrop-blur-sm"
+                whileHover={{ y: -5, scale: 1.02 }}
+                className={cn(
+                  "group relative rounded-2xl p-6 border-2 backdrop-blur-xl transition-all duration-500 flex flex-col h-full cursor-pointer min-h-[280px]",
+                  challenge.type === "red"
+                    ? "bg-red-500 border-red-500/30 text-white hover:bg-red-500/90 hover:border-red-500/40 hover:shadow-red-500/20"
+                    : isDark
+                    ? "bg-white/[0.05] border-white/20 text-white hover:bg-white/10 hover:border-red-500/20 hover:shadow-white/20"
+                    : "bg-white border-gray-200 text-gray-900 hover:bg-gray-50 hover:border-red-500/20 hover:shadow-gray-300/20"
+                )}
               >
-                {/* Animated gradient border on hover */}
-                <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${challenge.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10`} />
-                
-                {/* Main content */}
-                <div className="relative z-10">
-                  <div className={`w-12 h-12 bg-gradient-to-br ${challenge.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-sm`}>
-                    <challenge.icon className={`w-6 h-6 ${challenge.iconColor}`} />
+                <div className="flex flex-col flex-grow h-full">
+                  {/* Icon */}
+                  <div
+                    className={cn(
+                      "w-12 h-12 rounded-xl flex items-center justify-center mb-4 border transition-transform duration-300 group-hover:scale-110",
+                      challenge.type === "red"
+                        ? "bg-white/20 border-white/30"
+                        : "bg-red-500/20 border-red-500/30"
+                    )}
+                  >
+                    <challenge.icon
+                      className={cn(
+                        "w-6 h-6",
+                        challenge.type === "red" ? "text-white" : "text-red-500"
+                      )}
+                    />
                   </div>
 
-                  <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-foreground/90 transition-colors">
+                  {/* Title */}
+                  <h3
+                    className={cn(
+                      "text-lg font-semibold mb-3 line-clamp-2 leading-tight",
+                      challenge.type === "red" ? "text-white" : isDark ? "text-white" : "text-gray-900"
+                    )}
+                  >
                     {challenge.title}
                   </h3>
 
-                  <p className="text-foreground/70 text-sm leading-relaxed mb-4 flex-grow group-hover:text-foreground/80 transition-colors">
+                  {/* Description */}
+                  <p
+                    className={cn(
+                      "text-sm mb-4 leading-relaxed flex-grow",
+                      challenge.type === "red" ? "text-white/90" : isDark ? "text-white/80" : "text-gray-600"
+                    )}
+                  >
                     {challenge.description}
                   </p>
 
-                  <div className={`px-3 py-1 bg-gradient-to-r ${challenge.color} text-foreground text-xs font-medium rounded-full border border-foreground/10 group-hover:border-foreground/20 transition-all duration-300 self-start`}>
+                  {/* Impact Badge */}
+                  <div
+                    className={cn(
+                      "px-3 py-1 rounded-full text-xs font-medium border mt-auto w-fit transition-all duration-300 group-hover:scale-105",
+                      challenge.type === "red"
+                        ? "bg-white/20 border-white/30 text-white"
+                        : "bg-red-500/10 border-red-500/20 text-red-600 dark:text-red-400"
+                    )}
+                  >
                     {challenge.impact}
                   </div>
                 </div>
               </motion.div>
             ))}
           </div>
+
+          {/* Text Content */}
+          <div className="flex flex-col gap-8 lg:max-w-md xl:max-w-lg lg:pt-8 order-1 lg:order-2 text-right">
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 bg-red-500/15 text-foreground/90 px-4 py-2 rounded-full text-sm font-medium border border-red-500/30 shadow-sm ml-auto"
+            >
+              <AlertTriangle className="w-4 h-4 text-red-500" />
+              <span>The Challenges</span>
+            </motion.div>
+
+            {/* Heading */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.7 }}
+            >
+              <h2 className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-heading font-bold text-foreground leading-tight">
+                The Land Governance
+                <span className="block">Crisis</span>
+                <span className="block text-red-500 drop-shadow-[0_0_10px_rgba(255,131,131,0.5)]">Today</span>
+              </h2>
+            </motion.div>
+
+            {/* Description */}
+            <motion.p
+              initial={{ opacity: 0, x: -20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className={cn("text-base md:text-lg leading-relaxed", isDark ? "text-white/80" : "text-foreground/90")}
+            >
+              Traditional land management systems are failing citizens and governments alike,
+              creating barriers to prosperity, security, and sustainable development.
+            </motion.p>
+          </div>
         </div>
 
-        {/* Discover Solutions Link */}
+        {/* CTA Button */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.8 }}
-          className="text-center mt-16"
+          transition={{ duration: 0.8, delay: 0.7 }}
+          className="flex justify-start mt-16 lg:mt-20 order-3"
         >
-          <motion.a
-            href="/solutions"
-            className="inline-flex items-center space-x-3 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground px-6 py-3 rounded-full font-semibold text-base group shadow-lg hover:shadow-xl transition-all duration-300"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <span>Discover our solutions</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-          </motion.a>
+          <InteractiveButton href="/solutions">Discover our solutions</InteractiveButton>
         </motion.div>
       </div>
     </section>
   );
+}
+
+// Reusable Interactive Button
+interface InteractiveButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  href?: string;
+  children: React.ReactNode;
+}
+
+function InteractiveButton({ children, className, href, ...props }: InteractiveButtonProps) {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
+  const buttonClasses = cn(
+    "group relative overflow-hidden rounded-full border px-8 py-3 font-semibold flex items-center justify-center transition-all duration-300 min-h-[52px]",
+    isDark
+      ? "bg-[#020C28] border-[#AED59C] text-white hover:bg-[#021038] hover:text-[#AED59C]"
+      : "bg-white border-[#AED59C] text-gray-900 hover:bg-[#f7fff3] hover:text-[#020C28]",
+    className
+  );
+
+  const ButtonContent = (
+    <button className={buttonClasses} {...props}>
+      <span className="relative z-10 flex items-center gap-2">
+        {children}
+        <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+      </span>
+      <span
+        className={cn(
+          "absolute inset-0 rounded-full transition-all duration-300",
+          isDark ? "bg-[#020C28]/20 group-hover:bg-[#AED59C]/20" : "bg-white/20 group-hover:bg-[#AED59C]/20"
+        )}
+      />
+    </button>
+  );
+
+  if (href) {
+    return (
+      <motion.a href={href} whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="inline-block">
+        {ButtonContent}
+      </motion.a>
+    );
+  }
+
+  return <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>{ButtonContent}</motion.div>;
 }

@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useRef } from 'react';
 import { useInView } from 'framer-motion';
-import { Target, Users, Globe, Award, CheckCircle, ArrowRight, TrendingUp, MapPin, Shield } from "lucide-react";
+import { Target, Users, Globe, Award, CheckCircle, ArrowRight, TrendingUp, Shield } from "lucide-react";
 import { PageTransition } from '@/components/ui/page-transition';
 
 export default function LandTitlingPage() {

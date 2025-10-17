@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useRef } from 'react';
 import { useInView } from 'framer-motion';
-import { Smartphone, Shield, FileCheck, Users, Zap, CheckCircle, ArrowRight, Globe, Lock } from "lucide-react";
+import { Smartphone, Shield, FileCheck, Users, Zap, CheckCircle, ArrowRight, Lock } from "lucide-react";
 import { PageTransition } from '@/components/ui/page-transition';
 
 export default function PropertyWalletPage() {

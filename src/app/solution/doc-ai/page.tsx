@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useRef } from 'react';
 import { useInView } from 'framer-motion';
-import { ArrowRight, Zap, Shield, Search, FileText, Clock, Target, CheckCircle, Cpu, Users, Globe } from "lucide-react";
+import { ArrowRight, Zap, Shield, Search, FileText, Clock, Target, CheckCircle, Cpu } from "lucide-react";
 import { PageTransition } from '@/components/ui/page-transition';
 
 export default function DocAIPage() {

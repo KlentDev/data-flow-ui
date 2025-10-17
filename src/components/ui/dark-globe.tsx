@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import createGlobe from "cobe";
+import createGlobe, { Globe as GlobeInstance } from "cobe";
 
 interface GlobeProps {
   className?: string;
@@ -52,12 +52,10 @@ export function DarkGlobe({
   lightModeGlowColor = "#3b82f6",
 }: GlobeProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const globeRef = useRef<any>(null);
+  const globeRef = useRef<GlobeInstance | null>(null);
   const frameRef = useRef<number>();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const phiRef = useRef(0);
-  const thetaRef = useRef(theta);
   const isDragging = useRef(false);
   const lastMouseX = useRef(0);
   const lastMouseY = useRef(0);
@@ -125,21 +123,21 @@ export function DarkGlobe({
           scale,
           offset: [0, 0],
           markers: [
-            { location: [-13.1339, 27.8493], size: 0.03 }, // Zambia
-            { location: [-1.9403, 29.8739], size: 0.03 }, // Rwanda
-            { location: [6.4281, -9.4295], size: 0.03 }, // Liberia
-            { location: [5.0, -59.75], size: 0.03 }, // Guyana
-            { location: [17.3578, -62.782998], size: 0.03 }, // St. Kitts
-            { location: [8.4657, -13.2317], size: 0.03 }, // Sierra Leone
-            { location: [39.2904, -76.6122], size: 0.03 }, // Baltimore
-            { location: [38.9784, -92.4194], size: 0.03 }, // Missouri
-            { location: [39.9612, -82.9988], size: 0.03 }, // Ohio
-            { location: [27.9944, -81.7603], size: 0.03 }, // Florida
-            { location: [36.7783, -119.4179], size: 0.03 }, // California
-            { location: [39.321, -111.0937], size: 0.03 }, // Utah
-            { location: [40.7128, -74.006], size: 0.03 }, // NYC
+            { location: [-13.1339, 27.8493], size: 0.03 },
+            { location: [-1.9403, 29.8739], size: 0.03 },
+            { location: [6.4281, -9.4295], size: 0.03 },
+            { location: [5.0, -59.75], size: 0.03 },
+            { location: [17.3578, -62.782998], size: 0.03 },
+            { location: [8.4657, -13.2317], size: 0.03 },
+            { location: [39.2904, -76.6122], size: 0.03 },
+            { location: [38.9784, -92.4194], size: 0.03 },
+            { location: [39.9612, -82.9988], size: 0.03 },
+            { location: [27.9944, -81.7603], size: 0.03 },
+            { location: [36.7783, -119.4179], size: 0.03 },
+            { location: [39.321, -111.0937], size: 0.03 },
+            { location: [40.7128, -74.006], size: 0.03 },
           ],
-          onRender: (state: Record<string, any>) => {
+          onRender: (state: { phi: number; theta: number }) => {
             if (!isDragging.current) currentPhi += autoRotateSpeed;
             state.phi = currentPhi;
             state.theta = currentTheta;
@@ -181,19 +179,22 @@ export function DarkGlobe({
     };
 
     window.addEventListener("resize", onResize);
-    if (canvasRef.current) canvasRef.current.addEventListener("mousedown", onMouseDown);
+    canvasRef.current?.addEventListener("mousedown", onMouseDown);
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseup", onMouseUp);
 
     return () => {
       clearTimeout(timeoutId);
       window.removeEventListener("resize", onResize);
-      if (canvasRef.current) canvasRef.current.removeEventListener("mousedown", onMouseDown);
+      canvasRef.current?.removeEventListener("mousedown", onMouseDown);
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUp);
 
-      if (frameRef.current) cancelAnimationFrame(frameRef.current);
-      if (globeRef.current) globeRef.current.destroy();
+      const frameId = frameRef.current;
+      if (frameId) cancelAnimationFrame(frameId);
+
+      const globeInstance = globeRef.current;
+      if (globeInstance) globeInstance.destroy();
     };
   }, [
     theta,
@@ -214,11 +215,7 @@ export function DarkGlobe({
       ref={containerRef}
       className={`relative aspect-square w-full max-w-md lg:max-w-lg xl:max-w-2xl ${className}`}
     >
-      <canvas
-        ref={canvasRef}
-        className="w-full h-full"
-        style={{ cursor: "grab" }}
-      />
+      <canvas ref={canvasRef} className="w-full h-full" style={{ cursor: "grab" }} />
     </div>
   );
 }

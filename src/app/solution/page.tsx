@@ -1,180 +1,198 @@
 "use client";
 
-import { motion } from 'framer-motion';
-import { useRef } from 'react';
-import { useInView } from 'framer-motion';
-import { FileText, Wallet, Search, Map, Target, ArrowRight, CheckCircle, Zap, Shield, Users, Globe, Cpu, Building, Clock, TrendingUp } from 'lucide-react';
-import Link from 'next/link';
-import { PageTransition } from '@/components/ui/page-transition';
+import { motion } from "framer-motion";
+import { useRef } from "react";
+import {
+  FileText,
+  Wallet,
+  Search,
+  Map,
+  Target,
+  ArrowRight,
+  CheckCircle,
+  Zap,
+  Shield,
+  Users,
+  Globe,
+  Cpu,
+  Building,
+  Clock,
+  Landmark,
+  Eye,
+} from "lucide-react";
+import Link from "next/link";
 
 export default function SolutionPage() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
 
-  // Enhanced solutions with ROI metrics and implementation details
+  const simpleAnimate = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  };
+
+  // === DATA ===
   const solutions = [
     {
       icon: FileText,
-      title: 'Document Intelligence (DocAI)',
-      description: 'Advanced AI platform automating classification, indexing, and verification for land and court records with enterprise-grade security.',
-      features: ['40,000+ pages/hour processing', 'AI-based recordability checks & fraud detection', 'Smart indexing, redaction & data linking', 'Blockchain-backed preservation', 'Full audit trail & analytics'],
-      href: '/solutions/docai',
-      stats: ['40K', 'pages/hour'],
-      deployments: ['Tooele County, UT', 'Maryland', 'Missouri', 'Ohio', 'Florida', 'California'],
-      roi: '6-12 months',
-      implementation: '4-8 weeks',
+      title: "Document Intelligence Platform (DocAI)",
+      description:
+        "AI platform automating classification, indexing, and verification for land and court records with enterprise-grade security.",
+      features: [
+        "40,000+ pages/hour processing speed",
+        "AI-based recordability checks & fraud detection",
+        "Smart indexing, redaction & data linking",
+        "Blockchain-backed preservation",
+        "Full audit trail & analytics dashboard",
+      ],
+      href: "/solutions/docai",
+      stats: ["40K", "pages/hour"],
+      deployments: ["Tooele County, UT", "Maryland", "Missouri", "Ohio", "Florida", "California"],
+      roi: "6–12 months",
       metrics: [
-        { value: '70%', label: 'Faster Processing' },
-        { value: '99.9%', label: 'Accuracy' },
-        { value: 'Zero', label: 'Fraud' }
-      ]
+        { value: "50-70%", label: "Faster Recording" },
+        { value: "99.9%", label: "Accuracy Rate" },
+        { value: "Zero", label: "Title Fraud" },
+      ],
+      color: "from-blue-500 to-cyan-400",
     },
     {
       icon: Wallet,
-      title: 'Property Wallet™',
-      description: 'Secure mobile access to verified land records with blockchain-based ownership credentials.',
-      features: ['Blockchain-based ownership credentials', 'Digital verification for transactions', 'Mobile access platform', 'Offline capability', 'Multi-language support'],
-      href: '/solutions/property-wallet',
-      stats: ['1M+', 'Users Targeted'],
-      deployments: ['Zambia Pilot', 'Rwanda National', 'Liberia Implementation'],
-      roi: '8-18 months',
-      implementation: '6-12 weeks',
+      title: "Property Wallet™",
+      description:
+        "Secure mobile access to verified land records with blockchain-based ownership credentials for citizens.",
+      features: [
+        "Blockchain-based ownership credentials",
+        "Digital verification for transfers & taxes",
+        "Mobile offline access capability",
+        "Multi-language & citizen-friendly UI",
+      ],
+      href: "/solutions/property-wallet",
+      stats: ["1M+", "Digital Titles"],
+      deployments: ["Zambia National", "Rwanda Pilot", "Liberia Program"],
+      roi: "8–18 months",
       metrics: [
-        { value: '80%', label: 'Time Saved' },
-        { value: '24/7', label: 'Access' },
-        { value: 'Secure', label: 'Verification' }
-      ]
+        { value: "80%", label: "Time Saved" },
+        { value: "24/7", label: "Access" },
+        { value: "Secure", label: "Verification" },
+      ],
+      color: "from-emerald-500 to-green-400",
     },
     {
       icon: Search,
-      title: 'Smart Search Portals',
-      description: 'Internal & public-facing search with full-text AI retrieval and advanced filtering capabilities powered by machine learning.',
-      features: ['Full-text AI retrieval', 'Advanced filters & legal descriptions', 'Integrated paywall monetization', 'County-branded interfaces', 'API access & analytics'],
-      href: '/solutions/search-portals',
-      stats: ['<1s', 'Search Speed'],
-      deployments: ['Multiple US Counties', 'Zambia National', 'Rwanda Integration'],
-      roi: '3-6 months',
-      implementation: '2-4 weeks',
+      title: "Smart Search Portals",
+      description:
+        "AI-powered search with full-text retrieval, advanced filters, and analytics for public and enterprise records.",
+      features: [
+        "Full-text AI retrieval across all records",
+        "Advanced filters & smart search",
+        "Integrated paywall monetization",
+        "County-branded interface",
+        "Usage analytics & revenue reporting",
+      ],
+      href: "/solutions/search-portals",
+      stats: ["<1s", "Search Speed"],
+      deployments: ["US Counties", "Zambia National", "Rwanda Ubutaka"],
+      roi: "3–6 months",
       metrics: [
-        { value: '95%', label: 'Satisfaction' },
-        { value: '+$50K', label: 'Revenue' },
-        { value: 'Instant', label: 'Access' }
-      ]
+        { value: "95%", label: "User Satisfaction" },
+        { value: "+$50K", label: "Annual Revenue" },
+        { value: "Instant", label: "Access" },
+      ],
+      color: "from-purple-500 to-pink-400",
     },
     {
       icon: Map,
-      title: 'Drone & Aerial Mapping',
-      description: 'VTOL drone-based survey and mapping with AI-based image processing and boundary detection for rapid cadastral mapping.',
-      features: ['VTOL drone-based survey', 'AI-based image processing', 'Boundary detection technology', '5cm resolution accuracy', '3D modeling & GIS integration'],
-      href: '/solutions/drone-mapping',
-      stats: ['89K+', 'Images'],
-      deployments: ['St. Kitts National', 'Guyana 16,000km²', 'Zambia Rural Areas'],
-      roi: '12-24 months',
-      implementation: '2-6 months',
+      title: "Drone & Aerial Mapping",
+      description:
+        "VTOL drone-based survey and mapping with AI-powered image processing and boundary detection.",
+      features: [
+        "VTOL drone survey & mapping",
+        "AI-based image processing",
+        "Automated boundary detection",
+        "Fast cadastral mapping",
+        "Infrastructure planning support",
+      ],
+      href: "/solutions/drone-mapping",
+      stats: ["89K+", "Images Captured"],
+      deployments: ["St. Kitts", "Guyana", "Zambia"],
+      roi: "12–24 months",
       metrics: [
-        { value: '90%', label: 'Time Saved' },
-        { value: '5cm', label: 'Accuracy' },
-        { value: '100%', label: 'Coverage' }
-      ]
+        { value: "90%", label: "Faster Survey" },
+        { value: "CM-level", label: "Accuracy" },
+        { value: "Complete", label: "Coverage" },
+      ],
+      color: "from-amber-500 to-orange-400",
     },
-    {
-      icon: Target,
-      title: 'Systematic Land Titling',
-      description: 'Large-scale digital titling programs transforming paper-based systems into secure property rights with gender-inclusive approaches.',
-      features: ['Gender-inclusive titling programs', 'Mass-scale title registration', 'Equity-focused implementation', 'Mobile field verification', 'Community engagement tools'],
-      href: '/solutions/land-titling',
-      stats: ['4M+', 'Titles'],
-      deployments: ['Zambia National', 'World Bank Programs', 'Multi-country Expansion'],
-      roi: '18-36 months',
-      implementation: '12-24 months',
-      metrics: [
-        { value: '50%', label: 'Women Target' },
-        { value: '4M', label: 'Titles' },
-        { value: '7 Years', label: 'Program' }
-      ]
-    }
   ];
 
-  // Enhanced results with real data
   const results = [
+    { metric: "70%", desc: "Reduction in processing time", icon: Zap, detail: "Rwanda: 8 weeks → 3 days" },
+    { metric: "50-70%", desc: "Faster recording times", icon: Clock, detail: "DocAI implementation" },
+    { metric: "50%", desc: "Women ownership target", icon: Users, detail: "Zambia program goal" },
+    { metric: "Zero", desc: "Title fraud incidents", icon: Shield, detail: "Blockchain secured" },
+    { metric: "4M+", desc: "Titles in progress", icon: Target, detail: "Zambia systematic titling" },
+    { metric: "13K+", desc: "Properties digitized", icon: Building, detail: "Baltimore blockchain" },
+  ];
+
+  const technologyPillars = [
     { 
-      metric: '70%', 
-      description: 'Reduction in processing time', 
-      icon: Zap,
-      context: 'Rwanda: 8 weeks → 3 days'
+      icon: Cpu, 
+      title: "AI-Powered Intelligence", 
+      desc: "Machine learning for document processing, classification, and verification at scale." 
     },
     { 
-      metric: '50-70%', 
-      description: 'Faster recording times', 
-      icon: Clock,
-      context: 'US County deployments'
-    },
-    { 
-      metric: '50%', 
-      description: 'Women ownership target', 
-      icon: Users,
-      context: 'Zambia gender parity'
-    },
-    { 
-      metric: 'Zero', 
-      description: 'Title fraud incidents', 
       icon: Shield,
-      context: 'Blockchain security'
-    }
+      title: "Blockchain Security", 
+      desc: "Immutable cryptographic proofs and tamper-evident audit trails for all transactions." 
+    },
+    { 
+      icon: Eye, 
+      title: "Transparent Systems", 
+      desc: "Public access portals with full audit trails and real-time verification capabilities." 
+    },
   ];
 
-  // Enhanced global impact with detailed metrics
   const globalImpact = [
-    {
-      country: 'Zambia',
-      description: 'Africa\'s largest systematic land titling project',
-      metric: '4M titles over 7 years',
-      icon: Target,
-      progress: '35% complete',
-      team: '50+ specialists'
+    { 
+      icon: Landmark, 
+      country: "Zambia", 
+      desc: "Africa's largest systematic land titling - 4M titles over 7 years", 
+      progress: "35% complete",
+      highlight: "50% women ownership target"
     },
-    {
-      country: 'Rwanda',
-      description: 'Blockchain land transaction system',
-      metric: '8 weeks → 3 days approval',
-      icon: Zap,
-      progress: '100% deployed',
-      team: '30+ developers'
+    { 
+      icon: Zap, 
+      country: "Rwanda", 
+      desc: "Ubutaka system reduced approval time from 8 weeks to 3 days", 
+      progress: "100% deployed",
+      highlight: "National blockchain implementation"
     },
-    {
-      country: 'Baltimore',
-      description: 'Vacant properties digitization',
-      metric: '13,000 properties on blockchain',
-      icon: Building,
-      progress: 'Investment ready',
-      team: 'Implementation team'
-    }
+    { 
+      icon: Building, 
+      country: "Baltimore, USA", 
+      desc: "13,000 vacant properties on blockchain to attract investment", 
+      progress: "Investment Ready",
+      highlight: "Title cleanup initiative"
+    },
+    { 
+      icon: Globe, 
+      country: "Guyana", 
+      desc: "National cadastral datasets for 16,000+ km² developed", 
+      progress: "Completed",
+      highlight: "Drone mapping deployed"
+    },
   ];
 
-  // Technology integration benefits
-  const integrationBenefits = [
-    {
-      benefit: 'Unified Data Ecosystem',
-      description: 'Seamless integration across all solutions',
-      icon: Cpu
-    },
-    {
-      benefit: 'Blockchain Security Layer',
-      description: 'End-to-end cryptographic protection',
-      icon: Shield
-    },
-    {
-      benefit: 'Scalable Architecture',
-      description: 'From single county to national deployment',
-      icon: TrendingUp
-    }
-  ];
-
+  // === COMPONENT ===
   return (
-    <PageTransition>
-      <div className="min-h-screen bg-background pt-24">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <main className="min-h-screen bg-background text-foreground">
         {/* === HERO SECTION === */}
-        <section className="relative py-24 lg:py-32 overflow-hidden">
+        <section className="relative flex items-center justify-center min-h-[80vh] overflow-hidden">
           {/* Video Background */}
           <div className="absolute inset-0 w-full h-full">
             <video
@@ -186,197 +204,169 @@ export default function SolutionPage() {
               poster="https://via.placeholder.com/1920x1080.png?text=Solutions+Hero+Video"
             >
               <source src="/video/video.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
             </video>
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-background/50 via-background/70 to-background/80" />
+            <div className="absolute inset-0 bg-gradient-to-br from-background/70 via-primary/20 to-background/80 backdrop-blur-[1px]" />
           </div>
 
           {/* Hero Content */}
-          <div className="relative z-10 container mx-auto px-6 text-center">
+          <motion.div
+            {...simpleAnimate}
+            className="relative z-10 text-center px-6 max-w-6xl mx-auto"
+          >
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md text-foreground px-4 py-2 rounded-full text-sm font-medium mb-8 border border-white/20"
+              transition={{ delay: 0.2 }}
+              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md text-foreground px-6 py-3 rounded-full text-base font-medium border border-white/20 mb-8"
             >
-              <Target className="w-4 h-4" />
-              <span>End-to-End Solutions</span>
+              <Target className="w-5 h-5" />
+              <span>End-to-End Digital Land Solutions</span>
             </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 25 }}
+            <motion.h1 
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+              transition={{ duration: 0.8 }}
+              className="text-5xl md:text-7xl font-bold tracking-tight mb-6 bg-gradient-to-r from-primary via-emerald-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-lg"
             >
-              Comprehensive
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/70 mt-2">
-                Solutions
-              </span>
+              Transforming Land Governance
             </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 25 }}
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="max-w-2xl mx-auto text-lg md:text-xl text-foreground/80 leading-relaxed bg-background/60 backdrop-blur-sm p-6 rounded-2xl"
+              className="text-xl md:text-2xl text-foreground max-w-4xl mx-auto leading-relaxed bg-background/90 p-8 rounded-3xl border border-white/20 shadow-lg"
             >
-              MLG combines AI-powered data intelligence with blockchain-backed integrity 
-              to deliver comprehensive digital land governance solutions that build trust, 
-              unlock economic value, and empower citizens worldwide.
+              Revolutionizing property rights through AI, blockchain, and digital innovation — building trust, unlocking value, and empowering citizens worldwide.
             </motion.p>
-          </div>
+          </motion.div>
         </section>
 
-        {/* === RESULTS SECTION === */}
-        <section className="py-24 bg-background">
-          <div className="container mx-auto px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 max-w-6xl mx-auto items-center">
-              {/* LEFT: Content */}
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.6 }}
-                className="space-y-8"
-              >
-                <div>
-                  <h2 className="text-3xl font-bold mb-4 text-foreground">
-                    Proven Results & Impact
-                  </h2>
-                  <p className="text-lg text-foreground/70 mb-6">
-                    Our solutions deliver measurable improvements in efficiency, security, 
-                    and accessibility across global deployments.
-                  </p>
-                </div>
+        {/* === TECHNOLOGY PILLARS === */}
+        <section className="py-24 bg-gradient-to-br from-primary/5 via-background to-primary/10">
+          <div className="container mx-auto px-6 max-w-6xl">
+            <motion.div
+              {...simpleAnimate}
+              className="text-center mb-16"
+            >
+              <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-emerald-400 bg-clip-text text-transparent">
+                Powered by Innovation
+              </h2>
+              <p className="text-xl text-foreground max-w-3xl mx-auto">
+                Combining cutting-edge technologies to create secure, transparent, and efficient land governance systems for the modern world.
+              </p>
+            </motion.div>
 
-                {/* Mission Highlight */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {technologyPillars.map((item, i) => (
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  className="bg-primary/15 border border-primary/25 rounded-2xl p-6 backdrop-blur-sm"
+                  key={i}
+                  {...simpleAnimate}
+                  transition={{ delay: i * 0.1 }}
+                  className="p-8 bg-white rounded-3xl border border-gray-200 hover:shadow-2xl hover:scale-105 transition-all duration-500 group"
                 >
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/80 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <Zap className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-primary mb-2">
-                        Integrated Digital Ecosystem
-                      </h3>
-                      <p className="text-foreground/80 leading-relaxed">
-                        Each solution seamlessly integrates into a unified platform, creating transparent, 
-                        efficient, and equitable governance systems with measurable ROI and proven security.
-                      </p>
+                  <div className="flex justify-center mb-6">
+                    <div className="p-4 bg-primary/10 rounded-2xl group-hover:scale-110 transition-transform duration-300">
+                      <item.icon className="w-8 h-8 text-primary" />
                     </div>
                   </div>
+                  <h3 className="text-xl font-bold text-center mb-4 text-foreground">{item.title}</h3>
+                  <p className="text-foreground text-center text-sm leading-relaxed">{item.desc}</p>
                 </motion.div>
-              </motion.div>
-
-              {/* RIGHT: Stats Grid */}
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.6 }}
-                className="grid grid-cols-2 gap-6"
-              >
-                {results.map((result, index) => (
-                  <motion.div
-                    key={result.description}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
-                    className="bg-background rounded-2xl p-6 border border-border hover:shadow-lg transition-all duration-300 group text-center"
-                  >
-                    <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/80 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                      <result.icon className="w-6 h-6 text-white" />
-                    </div>
-                    <div className="text-2xl md:text-3xl font-bold text-primary mb-2">
-                      {result.metric}
-                    </div>
-                    <div className="text-sm font-medium text-foreground mb-1">{result.description}</div>
-                    <div className="text-xs text-foreground/50">{result.context}</div>
-                  </motion.div>
-                ))}
-              </motion.div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* === INTEGRATION BENEFITS === */}
+        {/* === PROVEN RESULTS === */}
+        <section className="py-24 bg-background">
+          <div className="container mx-auto px-6 max-w-7xl">
+            <motion.div
+              {...simpleAnimate}
+              className="text-center mb-16"
+            >
+              <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-emerald-400 bg-clip-text text-transparent">
+                Measurable Impact
+              </h2>
+              <p className="text-xl text-foreground max-w-3xl mx-auto">
+                Real results from our global deployments demonstrate the transformative power of digital land governance.
+              </p>
+            </motion.div>
+
+            {/* Top Row - 3 cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+              {results.slice(0, 3).map((r, i) => (
+                <motion.div
+                  key={i}
+                  {...simpleAnimate}
+                  transition={{ delay: i * 0.1 }}
+                  className="p-8 bg-white rounded-3xl border border-gray-200 hover:shadow-xl transition-all duration-500 group text-center"
+                >
+                  <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mx-auto mb-4 group-hover:scale-110 transition-transform">
+                    <r.icon className="w-8 h-8 text-primary" />
+                  </div>
+                  <div className="text-3xl font-bold text-primary mb-2">{r.metric}</div>
+                  <p className="text-lg font-medium text-foreground mb-2">{r.desc}</p>
+                  <p className="text-primary font-medium">{r.detail}</p>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Bottom Row - 3 cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {results.slice(3, 6).map((r, i) => (
+                <motion.div
+                  key={i + 3}
+                  {...simpleAnimate}
+                  transition={{ delay: (i + 3) * 0.1 }}
+                  className="p-8 bg-white rounded-3xl border border-gray-200 hover:shadow-xl transition-all duration-500 group text-center"
+                >
+                  <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mx-auto mb-4 group-hover:scale-110 transition-transform">
+                    <r.icon className="w-8 h-8 text-primary" />
+                  </div>
+                  <div className="text-3xl font-bold text-primary mb-2">{r.metric}</div>
+                  <p className="text-lg font-medium text-foreground mb-2">{r.desc}</p>
+                  <p className="text-primary font-medium">{r.detail}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* === GLOBAL IMPACT === */}
         <section className="py-24 bg-gradient-to-r from-primary/5 to-primary/10">
-          <div className="container mx-auto px-6">
+          <div className="container mx-auto px-6 max-w-7xl">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              className="text-center max-w-3xl mx-auto mb-16"
+              {...simpleAnimate}
+              className="text-center mb-16"
             >
-              <h2 className="text-3xl font-bold mb-4 text-foreground">
-                Seamless Integration Benefits
+              <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-emerald-400 bg-clip-text text-transparent">
+                Global Deployment & Success
               </h2>
-              <p className="text-lg text-foreground/70">
-                Unified platform delivering maximum value through interconnected solutions
+              <p className="text-xl text-foreground max-w-3xl mx-auto">
+                From national systematic titling to urban property digitization, our solutions are transforming land governance worldwide.
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-              {integrationBenefits.map((benefit, index) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {globalImpact.map((item, i) => (
                 <motion.div
-                  key={benefit.benefit}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-background rounded-2xl p-6 text-center border border-border hover:shadow-lg transition-all duration-300 group"
+                  key={i}
+                  {...simpleAnimate}
+                  transition={{ delay: i * 0.15 }}
+                  className="p-8 bg-white rounded-3xl border border-gray-200 hover:shadow-2xl hover:scale-105 transition-all duration-500 group"
                 >
-                  <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <benefit.icon className="w-6 h-6 text-primary" />
+                  <div className="flex items-center justify-center gap-3 mb-4">
+                    <div className="p-2 bg-primary/10 rounded-xl">
+                      <item.icon className="w-6 h-6 text-primary" />
+                    </div>
+                    <p className="text-lg font-bold text-foreground">{item.country}</p>
                   </div>
-                  <h3 className="font-semibold text-foreground mb-2">{benefit.benefit}</h3>
-                  <p className="text-foreground/60 text-sm">{benefit.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* === GLOBAL IMPACT SECTION === */}
-        <section className="py-24 bg-background">
-          <div className="container mx-auto px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              className="text-center max-w-4xl mx-auto mb-16"
-            >
-              <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
-                Proven Global Impact
-              </h2>
-              <p className="text-xl text-foreground/70 leading-relaxed">
-                Transforming land governance across continents with measurable, scalable results
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              {globalImpact.map((impact, index) => (
-                <motion.div
-                  key={impact.country}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: index * 0.2 }}
-                  className="text-center group"
-                >
-                  <div className="bg-background rounded-2xl p-6 border border-border hover:shadow-xl transition-all duration-500 h-full">
-                    <div className="flex items-center gap-3 mb-4 justify-center">
-                      <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center">
-                        <impact.icon className="w-5 h-5 text-primary" />
-                      </div>
-                      <div className="text-xl font-bold text-primary">{impact.country}</div>
-                    </div>
-                    <div className="text-sm text-foreground/70 mb-3">{impact.description}</div>
-                    <div className="text-lg font-semibold text-foreground mb-2">{impact.metric}</div>
-                    <div className="flex justify-between text-xs text-foreground/50">
-                      <span>{impact.progress}</span>
-                      <span>{impact.team}</span>
-                    </div>
+                  <p className="text-foreground text-sm mb-3 leading-relaxed">{item.desc}</p>
+                  <div className="space-y-2">
+                    <p className="text-primary text-sm font-semibold">{item.progress}</p>
+                    <p className="text-emerald-600 text-sm font-medium">{item.highlight}</p>
                   </div>
                 </motion.div>
               ))}
@@ -384,96 +374,178 @@ export default function SolutionPage() {
           </div>
         </section>
 
-        {/* === SOLUTIONS GRID SECTION === */}
-        <section ref={ref} className="py-24 bg-gradient-to-r from-primary/5 to-primary/10">
-          <div className="container mx-auto px-6">
+        {/* === SOLUTION GRID === */}
+        <section ref={ref} className="py-24 bg-background">
+          <div className="container mx-auto px-6 max-w-7xl">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              className="text-center max-w-4xl mx-auto mb-16"
+              {...simpleAnimate}
+              className="text-center mb-16"
             >
-              <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
-                Comprehensive Solution Suite
+              <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-emerald-400 bg-clip-text text-transparent">
+                Complete Solution Suite
               </h2>
-              <p className="text-xl text-foreground/70 leading-relaxed">
-                End-to-end technologies addressing every aspect of modern land governance, 
-                delivering measurable ROI and enterprise-grade security
+              <p className="text-xl text-foreground max-w-3xl mx-auto">
+                End-to-end digital land governance solutions that integrate seamlessly to transform how governments manage property rights.
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-              {solutions.map((solution, index) => (
-                <motion.div
-                  key={solution.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="group"
-                >
-                  <Link href={solution.href}>
-                    <div className="bg-background rounded-2xl p-6 border border-border hover:shadow-xl transition-all duration-500 h-full flex flex-col cursor-pointer">
-                      {/* Header with Icon and Metrics */}
-                      <div className="flex items-center justify-between mb-6">
-                        <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                          <solution.icon className="w-8 h-8 text-white" />
-                        </div>
-                        <div className="text-right">
-                          <div className="text-2xl font-bold text-primary">{solution.stats[0]}</div>
-                          <div className="text-sm text-foreground/60">{solution.stats[1]}</div>
-                        </div>
-                      </div>
-                      
-                      {/* Content */}
-                      <h3 className="text-xl font-bold text-foreground mb-4">
-                        {solution.title}
-                      </h3>
-                      <p className="text-foreground/70 leading-relaxed mb-6 flex-grow">
-                        {solution.description}
-                      </p>
-                      
-                      {/* Quick Metrics */}
-                      <div className="grid grid-cols-3 gap-2 mb-4">
-                        {solution.metrics.map((metric, metricIndex) => (
-                          <div key={metricIndex} className="text-center bg-primary/5 rounded-lg py-2">
-                            <div className="text-xs font-semibold text-primary">{metric.value}</div>
-                            <div className="text-xs text-foreground/60">{metric.label}</div>
+            {/* Top Row - 2 cards */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+              {solutions.slice(0, 2).map((sol, i) => {
+                const IconComponent = sol.icon;
+                return (
+                  <motion.div
+                    key={i}
+                    {...simpleAnimate}
+                    transition={{ delay: i * 0.1 }}
+                    className="h-full"
+                  >
+                    <Link href={sol.href}>
+                      <div className="p-8 bg-white border border-gray-200 rounded-3xl flex flex-col h-full hover:shadow-2xl hover:scale-105 transition-all duration-500 group">
+                        {/* Header */}
+                        <div className="flex justify-between items-center mb-6">
+                          <div className={`w-20 h-20 bg-gradient-to-br ${sol.color} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                            <IconComponent className="w-10 h-10 text-white" />
                           </div>
-                        ))}
-                      </div>
-                      
-                      {/* Features List */}
-                      <div className="space-y-3 mb-6">
-                        {solution.features.map((feature, featureIndex) => (
-                          <div key={featureIndex} className="flex items-start text-foreground/70 text-sm">
-                            <CheckCircle className="w-4 h-4 text-primary mr-3 mt-0.5 flex-shrink-0" />
-                            <span>{feature}</span>
+                          <div className="text-right">
+                            <p className="text-3xl font-bold text-primary">{sol.stats[0]}</p>
+                            <p className="text-lg text-foreground">{sol.stats[1]}</p>
                           </div>
-                        ))}
-                      </div>
+                        </div>
 
-                      {/* Deployment & ROI */}
-                      <div className="flex items-center justify-between text-xs text-foreground/50 mb-4">
-                        <div className="flex items-center">
-                          <Globe className="w-3 h-3 mr-1" />
-                          {solution.deployments.length} deployments
+                        {/* Content */}
+                        <h3 className="text-2xl font-bold mb-4 leading-tight text-foreground">{sol.title}</h3>
+                        <p className="text-foreground text-lg leading-relaxed mb-6 flex-grow">{sol.description}</p>
+
+                        {/* Metrics */}
+                        <div className="grid grid-cols-3 gap-4 mb-6">
+                          {sol.metrics.map((m, mi) => (
+                            <div key={mi} className="bg-primary/5 rounded-xl py-3 text-center group-hover:bg-primary/10 transition-colors">
+                              <div className="text-lg font-bold text-primary">{m.value}</div>
+                              <div className="text-sm text-foreground">{m.label}</div>
+                            </div>
+                          ))}
                         </div>
-                        <div className="text-primary font-medium">{solution.roi} ROI</div>
+
+                        {/* Features */}
+                        <div className="space-y-3 mb-6 flex-grow">
+                          {sol.features.map((f, fi) => (
+                            <div key={fi} className="flex text-base text-foreground items-start">
+                              <CheckCircle className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0" /> 
+                              <span>{f}</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Footer */}
+                        <div className="flex justify-between items-center text-sm text-foreground pt-4 border-t border-gray-200">
+                          <span className="flex items-center gap-2">
+                            <Globe className="w-4 h-4" /> 
+                            {sol.deployments.length} deployments
+                          </span>
+                          <span className="text-primary font-semibold text-lg">{sol.roi} ROI</span>
+                        </div>
                       </div>
-                      
-                      {/* Arrow Indicator */}
-                      <div className="mt-auto opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300 flex items-center gap-2 text-primary font-medium">
-                        <span>Explore solution</span>
-                        <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            {/* Bottom Row - 2 cards */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {solutions.slice(2, 4).map((sol, i) => {
+                const IconComponent = sol.icon;
+                return (
+                  <motion.div
+                    key={i + 2}
+                    {...simpleAnimate}
+                    transition={{ delay: (i + 2) * 0.1 }}
+                    className="h-full"
+                  >
+                    <Link href={sol.href}>
+                      <div className="p-8 bg-white border border-gray-200 rounded-3xl flex flex-col h-full hover:shadow-2xl hover:scale-105 transition-all duration-500 group">
+                        {/* Header */}
+                        <div className="flex justify-between items-center mb-6">
+                          <div className={`w-20 h-20 bg-gradient-to-br ${sol.color} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                            <IconComponent className="w-10 h-10 text-white" />
+                          </div>
+                          <div className="text-right">
+                            <p className="text-3xl font-bold text-primary">{sol.stats[0]}</p>
+                            <p className="text-lg text-foreground">{sol.stats[1]}</p>
+                          </div>
+                        </div>
+
+                        {/* Content */}
+                        <h3 className="text-2xl font-bold mb-4 leading-tight text-foreground">{sol.title}</h3>
+                        <p className="text-foreground text-lg leading-relaxed mb-6 flex-grow">{sol.description}</p>
+
+                        {/* Metrics */}
+                        <div className="grid grid-cols-3 gap-4 mb-6">
+                          {sol.metrics.map((m, mi) => (
+                            <div key={mi} className="bg-primary/5 rounded-xl py-3 text-center group-hover:bg-primary/10 transition-colors">
+                              <div className="text-lg font-bold text-primary">{m.value}</div>
+                              <div className="text-sm text-foreground">{m.label}</div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Features */}
+                        <div className="space-y-3 mb-6 flex-grow">
+                          {sol.features.map((f, fi) => (
+                            <div key={fi} className="flex text-base text-foreground items-start">
+                              <CheckCircle className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0" /> 
+                              <span>{f}</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Footer */}
+                        <div className="flex justify-between items-center text-sm text-foreground pt-4 border-t border-gray-200">
+                          <span className="flex items-center gap-2">
+                            <Globe className="w-4 h-4" /> 
+                            {sol.deployments.length} deployments
+                          </span>
+                          <span className="text-primary font-semibold text-lg">{sol.roi} ROI</span>
+                        </div>
                       </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
+                    </Link>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>
 
-      </div>
-    </PageTransition>
+        {/* === CTA SECTION === */}
+        <section className="py-20 bg-gradient-to-r from-primary to-emerald-500">
+          <div className="container mx-auto px-6 max-w-4xl text-center">
+            <motion.div
+              {...simpleAnimate}
+              className="text-white"
+            >
+              <h2 className="text-3xl md:text-5xl font-bold mb-6">
+                Ready to Transform Your Land Governance?
+              </h2>
+              <p className="text-xl text-white mb-8 max-w-2xl mx-auto">
+                Join governments worldwide who are building trust in property rights and unlocking economic value through technology.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link href="/contact">
+                  <button className="px-8 py-4 bg-white text-primary rounded-2xl font-semibold hover:bg-gray-100 transition-colors flex items-center gap-2">
+                    Start Your Transformation <ArrowRight className="w-5 h-5" />
+                  </button>
+                </Link>
+                <Link href="/case-studies">
+                  <button className="px-8 py-4 bg-transparent border-2 border-white text-white rounded-2xl font-semibold hover:bg-white/10 transition-colors">
+                    View Case Studies
+                  </button>
+                </Link>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      </main>
+    </motion.div>
   );
 }
