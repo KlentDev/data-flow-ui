@@ -246,10 +246,21 @@ export function HeroSection() {
               className="flex-1 flex items-center justify-center lg:justify-end w-full"
             >
               {theme === "dark" ? (
-                <DarkGlobe className="w-full max-w-md lg:max-w-md" config={globeConfig} />
-              ) : (
-                <LightGlobe className="w-full max-w-md lg:max-w-md" config={globeConfig} />
-              )}
+  <DarkGlobe 
+    className="w-full max-w-md lg:max-w-md" 
+    theta={globeConfig.theta}
+    dark={globeConfig.dark}
+    scale={globeConfig.scale}
+    diffuse={globeConfig.diffuse}
+    mapSamples={globeConfig.mapSamples}
+    mapBrightness={globeConfig.mapBrightness}
+  />
+) : (
+  <LightGlobe 
+    className="w-full max-w-md lg:max-w-md" 
+    config={globeConfig} 
+  />
+)}
             </motion.div>
           )}
         </div>

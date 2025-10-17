@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import createGlobe, { Globe as GlobeInstance } from "cobe";
+import createGlobe from "cobe";
+
+type GlobeInstance = ReturnType<typeof createGlobe>;
 
 interface GlobeProps {
   className?: string;
@@ -53,7 +55,7 @@ export function DarkGlobe({
 }: GlobeProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const globeRef = useRef<GlobeInstance | null>(null);
-  const frameRef = useRef<number>();
+  const frameRef = useRef<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const isDragging = useRef(false);
@@ -67,9 +69,7 @@ export function DarkGlobe({
     let currentTheta = theta;
 
     const onResize = () => {
-      if (containerRef.current) {
-        width = containerRef.current.offsetWidth;
-      }
+      if (containerRef.current) width = containerRef.current.offsetWidth;
     };
 
     const initGlobe = () => {
@@ -81,7 +81,7 @@ export function DarkGlobe({
         globeRef.current = null;
       }
 
-      if (frameRef.current) cancelAnimationFrame(frameRef.current);
+      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
 
       if (!containerRef.current) return;
       width = containerRef.current.offsetWidth;
@@ -137,7 +137,7 @@ export function DarkGlobe({
             { location: [39.321, -111.0937], size: 0.03 },
             { location: [40.7128, -74.006], size: 0.03 },
           ],
-          onRender: (state: { phi: number; theta: number }) => {
+          onRender: (state) => {
             if (!isDragging.current) currentPhi += autoRotateSpeed;
             state.phi = currentPhi;
             state.theta = currentTheta;
@@ -186,15 +186,15 @@ export function DarkGlobe({
     return () => {
       clearTimeout(timeoutId);
       window.removeEventListener("resize", onResize);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       canvasRef.current?.removeEventListener("mousedown", onMouseDown);
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUp);
 
-      const frameId = frameRef.current;
-      if (frameId) cancelAnimationFrame(frameId);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
 
-      const globeInstance = globeRef.current;
-      if (globeInstance) globeInstance.destroy();
+      if (globeRef.current) globeRef.current.destroy();
     };
   }, [
     theta,

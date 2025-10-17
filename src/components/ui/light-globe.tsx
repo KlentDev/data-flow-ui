@@ -1,12 +1,28 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import createGlobe, { COBEOptions, Globe as GlobeInstance } from "cobe";
+import { useRef, useLayoutEffect } from "react";
+import createGlobe from "cobe";
+
+type GlobeInstance = ReturnType<typeof createGlobe>;
+
+interface GlobeProps {
+  className?: string;
+  config?: {
+    theta?: number;
+    dark?: number;
+    scale?: number;
+    diffuse?: number;
+    mapSamples?: number;
+    mapBrightness?: number;
+    baseColor?: [number, number, number];
+    markerColor?: [number, number, number];
+    glowColor?: [number, number, number];
+    markers?: { location: [number, number]; size: number }[];
+  };
+}
 
 const hexToRgbNormalized = (hex: string): [number, number, number] => {
-  let r = 0,
-    g = 0,
-    b = 0;
+  let r = 0, g = 0, b = 0;
   const cleanHex = hex.startsWith("#") ? hex.slice(1) : hex;
   if (cleanHex.length === 3) {
     r = parseInt(cleanHex[0] + cleanHex[0], 16);
@@ -20,11 +36,6 @@ const hexToRgbNormalized = (hex: string): [number, number, number] => {
   return [r / 255, g / 255, b / 255];
 };
 
-interface GlobeProps {
-  className?: string;
-  config?: COBEOptions;
-}
-
 export function LightGlobe({ className = "", config }: GlobeProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const globeRef = useRef<GlobeInstance | null>(null);
@@ -37,16 +48,20 @@ export function LightGlobe({ className = "", config }: GlobeProps) {
   const lastMouseY = useRef(0);
   const autoRotateSpeed = 0.002;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     let width = 0;
+    const canvas = canvasRef.current;
+    const container = containerRef.current;
 
     const updateSize = () => {
-      if (containerRef.current) width = containerRef.current.offsetWidth;
+      if (container) {
+        const rect = container.getBoundingClientRect();
+        width = rect.width;
+      }
     };
 
     const initGlobe = () => {
-      const canvas = canvasRef.current;
-      if (!canvas) return;
+      if (!canvas || !container) return;
 
       if (globeRef.current) {
         globeRef.current.destroy();
@@ -54,20 +69,25 @@ export function LightGlobe({ className = "", config }: GlobeProps) {
       }
 
       updateSize();
+      if (width === 0) return; // Don't initialize if width is 0
 
       const pixelRatio = Math.min(2, window.devicePixelRatio);
+
+      // Set canvas dimensions to match container exactly
       canvas.width = width * pixelRatio;
       canvas.height = width * pixelRatio;
+
+      // Set canvas display size
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${width}px`;
 
       const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
       const resolvedBaseColor: [number, number, number] =
-        config?.baseColor ??
-        hexToRgbNormalized(prefersDark ? "#ffffff" : "#60a5fa");
+        config?.baseColor ?? hexToRgbNormalized(prefersDark ? "#ffffff" : "#60a5fa");
 
       const resolvedGlowColor: [number, number, number] =
-        config?.glowColor ??
-        hexToRgbNormalized(prefersDark ? "#ffffff" : "#3b82f6");
+        config?.glowColor ?? hexToRgbNormalized(prefersDark ? "#ffffff" : "#3b82f6");
 
       const resolvedMarkerColor: [number, number, number] =
         config?.markerColor ?? hexToRgbNormalized("#ef4444");
@@ -85,26 +105,25 @@ export function LightGlobe({ className = "", config }: GlobeProps) {
         baseColor: resolvedBaseColor,
         glowColor: resolvedGlowColor,
         markerColor: resolvedMarkerColor,
-        markers:
-          config?.markers ?? [
-            { location: [-13.1339, 27.8493], size: 0.03 },
-            { location: [-1.9403, 29.8739], size: 0.03 },
-            { location: [6.4281, -9.4295], size: 0.03 },
-            { location: [5.0, -59.75], size: 0.03 },
-            { location: [17.3578, -62.782998], size: 0.03 },
-            { location: [8.4657, -13.2317], size: 0.03 },
-            { location: [39.2904, -76.6122], size: 0.03 },
-            { location: [38.9784, -92.4194], size: 0.03 },
-            { location: [39.9612, -82.9988], size: 0.03 },
-            { location: [27.9944, -81.7603], size: 0.03 },
-            { location: [36.7783, -119.4179], size: 0.03 },
-            { location: [39.321, -111.0937], size: 0.03 },
-            { location: [40.7128, -74.006], size: 0.03 },
-          ],
+        markers: config?.markers ?? [
+          { location: [-13.1339, 27.8493], size: 0.03 },
+          { location: [-1.9403, 29.8739], size: 0.03 },
+          { location: [6.4281, -9.4295], size: 0.03 },
+          { location: [5.0, -59.75], size: 0.03 },
+          { location: [17.3578, -62.782998], size: 0.03 },
+          { location: [8.4657, -13.2317], size: 0.03 },
+          { location: [39.2904, -76.6122], size: 0.03 },
+          { location: [38.9784, -92.4194], size: 0.03 },
+          { location: [39.9612, -82.9988], size: 0.03 },
+          { location: [27.9944, -81.7603], size: 0.03 },
+          { location: [36.7783, -119.4179], size: 0.03 },
+          { location: [39.321, -111.0937], size: 0.03 },
+          { location: [40.7128, -74.006], size: 0.03 },
+        ],
         scale: config?.scale ?? 1,
         offset: [0, 0],
         opacity: 0.9,
-        onRender: (state: { phi: number; theta: number }) => {
+        onRender: (state) => {
           if (!isDragging.current) phiRef.current += autoRotateSpeed;
           state.phi = phiRef.current;
           state.theta = thetaRef.current;
@@ -116,7 +135,7 @@ export function LightGlobe({ className = "", config }: GlobeProps) {
       isDragging.current = true;
       lastMouseX.current = e.clientX;
       lastMouseY.current = e.clientY;
-      if (canvasRef.current) canvasRef.current.style.cursor = "grabbing";
+      if (canvas) canvas.style.cursor = "grabbing";
     };
 
     const onMouseMove = (e: MouseEvent) => {
@@ -135,25 +154,30 @@ export function LightGlobe({ className = "", config }: GlobeProps) {
 
     const onMouseUp = () => {
       isDragging.current = false;
-      if (canvasRef.current) canvasRef.current.style.cursor = "grab";
+      if (canvas) canvas.style.cursor = "grab";
     };
 
-    const timeoutId = setTimeout(initGlobe, 100);
+    // Use requestAnimationFrame for better timing
+    const init = () => {
+      updateSize();
+      initGlobe();
+    };
 
-    window.addEventListener("resize", updateSize);
-    canvasRef.current?.addEventListener("mousedown", onMouseDown);
+    const rafId = requestAnimationFrame(init);
+
+    window.addEventListener("resize", init);
+    canvas?.addEventListener("mousedown", onMouseDown);
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseup", onMouseUp);
 
     return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener("resize", updateSize);
-      canvasRef.current?.removeEventListener("mousedown", onMouseDown);
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("resize", init);
+      canvas?.removeEventListener("mousedown", onMouseDown);
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUp);
 
-      const globeInstance = globeRef.current;
-      if (globeInstance) globeInstance.destroy();
+      if (globeRef.current) globeRef.current.destroy();
     };
   }, [config]);
 
