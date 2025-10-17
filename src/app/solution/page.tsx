@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants, easeOut } from "framer-motion";
 import { useRef } from "react";
 import {
   FileText,
@@ -23,11 +23,11 @@ import {
 import Link from "next/link";
 
 export default function SolutionPage() {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement | null>(null);
 
-  const simpleAnimate = {
+  const simpleAnimate: Variants = {
     initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.6, ease: easeOut } },
   };
 
   // === DATA ===
@@ -182,6 +182,7 @@ export default function SolutionPage() {
       highlight: "Drone mapping deployed"
     },
   ];
+
 
   // === COMPONENT ===
   return (

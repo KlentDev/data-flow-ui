@@ -1,147 +1,160 @@
 "use client";
 
-import { motion} from 'framer-motion';
-import { useRef } from 'react';
-import { 
-  Cpu, 
-  Shield, 
-  Zap, 
-  Database, 
-  FileText, 
-  Cloud, 
-  Smartphone, 
-  Target, 
-  TrendingUp, 
-  Users, 
-  Award, 
+import { motion, Transition } from "framer-motion";
+import { useRef } from "react";
+import {
+  Cpu,
+  Shield,
+  Zap,
+  Database,
+  FileText,
+  Cloud,
+  Smartphone,
+  Target,
+  TrendingUp,
+  Users,
+  Award,
   Globe,
   Building,
-} from 'lucide-react';
+} from "lucide-react";
 
 export default function TechnologyPage() {
   const ref = useRef(null);
 
   const simpleAnimate = {
     initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] } as Transition, // <-- fix here
+    },
   };
 
-  // Core Technology Stack - Matching ChallengePage structure
   const coreTechnologies = [
     {
       icon: Cpu,
-      title: 'AI & Machine Learning',
-      description: 'Advanced document intelligence and automation that processes land records with enterprise-grade accuracy and speed.',
-      impact: '40,000 pages/hour processing capacity',
-      color: 'from-blue-500 to-cyan-400',
+      title: "AI & Machine Learning",
+      description:
+        "Advanced document intelligence and automation that processes land records with enterprise-grade accuracy and speed.",
+      impact: "40,000 pages/hour processing capacity",
+      color: "from-blue-500 to-cyan-400",
     },
     {
       icon: Shield,
-      title: 'Blockchain Security',
-      description: 'Immutable distributed ledger ensuring data integrity, preventing fraud, and creating transparent audit trails.',
-      impact: 'Zero title fraud incidents',
-      color: 'from-emerald-500 to-green-400',
+      title: "Blockchain Security",
+      description:
+        "Immutable distributed ledger ensuring data integrity, preventing fraud, and creating transparent audit trails.",
+      impact: "Zero title fraud incidents",
+      color: "from-emerald-500 to-green-400",
     },
     {
       icon: Database,
-      title: 'Cloud Infrastructure',
-      description: 'Scalable, secure cloud platform supporting global operations with high availability and regulatory compliance.',
-      impact: '99.9% uptime SLA guarantee',
-      color: 'from-purple-500 to-pink-400',
+      title: "Cloud Infrastructure",
+      description:
+        "Scalable, secure cloud platform supporting global operations with high availability and regulatory compliance.",
+      impact: "99.9% uptime SLA guarantee",
+      color: "from-purple-500 to-pink-400",
     },
     {
       icon: FileText,
-      title: 'Document Intelligence',
-      description: 'AI-powered processing of land records, contracts, and legal documents with human-level accuracy.',
-      impact: '70% faster processing times',
-      color: 'from-amber-500 to-orange-400',
+      title: "Document Intelligence",
+      description:
+        "AI-powered processing of land records, contracts, and legal documents with human-level accuracy.",
+      impact: "70% faster processing times",
+      color: "from-amber-500 to-orange-400",
     },
     {
       icon: Globe,
-      title: 'Digital Mapping',
-      description: 'Drone and aerial imagery with AI-powered boundary detection for accurate cadastral mapping.',
-      impact: '90% faster survey processes',
-      color: 'from-red-500 to-rose-400',
+      title: "Digital Mapping",
+      description:
+        "Drone and aerial imagery with AI-powered boundary detection for accurate cadastral mapping.",
+      impact: "90% faster survey processes",
+      color: "from-red-500 to-rose-400",
     },
     {
       icon: Smartphone,
-      title: 'Mobile Accessibility',
-      description: 'Cross-platform mobile applications for field agents and citizen access in remote areas.',
-      impact: '24/7 citizen access worldwide',
-      color: 'from-indigo-500 to-purple-400',
-    }
+      title: "Mobile Accessibility",
+      description:
+        "Cross-platform mobile applications for field agents and citizen access in remote areas.",
+      impact: "24/7 citizen access worldwide",
+      color: "from-indigo-500 to-purple-400",
+    },
   ];
 
-  // Performance Stats - Matching globalImpact structure
   const performanceStats = [
-    { 
-      value: 40, 
-      suffix: 'K', 
-      label: 'Pages Processed Per Hour', 
-      icon: Zap, 
-      detail: 'DocAI maximum capacity' 
+    {
+      value: 40,
+      suffix: "K",
+      label: "Pages Processed Per Hour",
+      icon: Zap,
+      detail: "DocAI maximum capacity",
     },
-    { 
-      value: 99.9, 
-      suffix: '%', 
-      label: 'System Uptime', 
-      icon: Cloud, 
-      detail: 'Enterprise SLA guarantee' 
+    {
+      value: 99.9,
+      suffix: "%",
+      label: "System Uptime",
+      icon: Cloud,
+      detail: "Enterprise SLA guarantee",
     },
-    { 
-      value: 70, 
-      suffix: '%', 
-      label: 'Faster Processing', 
-      icon: TrendingUp, 
-      detail: 'Average efficiency gain' 
+    {
+      value: 70,
+      suffix: "%",
+      label: "Faster Processing",
+      icon: TrendingUp,
+      detail: "Average efficiency gain",
     },
-    { 
-      value: 4, 
-      suffix: 'M+', 
-      label: 'Titles in Progress', 
-      icon: Target, 
-      detail: 'Global deployment scale' 
+    {
+      value: 4,
+      suffix: "M+",
+      label: "Titles in Progress",
+      icon: Target,
+      detail: "Global deployment scale",
     },
   ];
 
-  // Technology Benefits - Matching economicConsequences structure
   const technologyBenefits = [
     {
       icon: Zap,
-      title: 'Lightning Fast Processing',
-      description: 'AI-powered automation reduces processing times from weeks to minutes with 40,000 pages/hour capacity.',
-      impact: '8 weeks → 3 days turnaround'
+      title: "Lightning Fast Processing",
+      description:
+        "AI-powered automation reduces processing times from weeks to minutes with 40,000 pages/hour capacity.",
+      impact: "8 weeks → 3 days turnaround",
     },
     {
       icon: Shield,
-      title: 'Military-Grade Security',
-      description: 'Blockchain technology ensures data integrity and prevents fraud with cryptographic verification.',
-      impact: 'Zero successful fraud attempts'
+      title: "Military-Grade Security",
+      description:
+        "Blockchain technology ensures data integrity and prevents fraud with cryptographic verification.",
+      impact: "Zero successful fraud attempts",
     },
     {
       icon: Users,
-      title: 'Citizen Empowerment',
-      description: 'Mobile access and transparent systems give citizens control over their property rights.',
-      impact: '24/7 access to land records'
+      title: "Citizen Empowerment",
+      description:
+        "Mobile access and transparent systems give citizens control over their property rights.",
+      impact: "24/7 access to land records",
     },
     {
       icon: Building,
-      title: 'Government Efficiency',
-      description: 'Streamlined processes reduce operational costs and improve service delivery for governments.',
-      impact: '50-70% cost reduction'
+      title: "Government Efficiency",
+      description:
+        "Streamlined processes reduce operational costs and improve service delivery for governments.",
+      impact: "50-70% cost reduction",
     },
     {
       icon: Globe,
-      title: 'Global Scalability',
-      description: 'Cloud infrastructure supports deployment across continents with local compliance.',
-      impact: '6+ countries deployed'
+      title: "Global Scalability",
+      description:
+        "Cloud infrastructure supports deployment across continents with local compliance.",
+      impact: "6+ countries deployed",
     },
     {
       icon: Award,
-      title: 'Proven Results',
-      description: 'Tested and validated across multiple government implementations worldwide.',
-      impact: '4M+ titles in progress'
-    }
+      title: "Proven Results",
+      description:
+        "Tested and validated across multiple government implementations worldwide.",
+      impact: "4M+ titles in progress",
+    },
   ];
 
   return (
