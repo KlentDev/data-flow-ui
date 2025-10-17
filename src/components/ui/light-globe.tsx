@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useLayoutEffect } from "react";
+import { useRef, useEffect } from "react";
 import createGlobe from "cobe";
 
 type GlobeInstance = ReturnType<typeof createGlobe>;
@@ -41,22 +41,22 @@ export function LightGlobe({ className = "", config }: GlobeProps) {
   const globeRef = useRef<GlobeInstance | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const phiRef = useRef(0);
   const thetaRef = useRef(config?.theta ?? 0.25);
   const isDragging = useRef(false);
   const lastMouseX = useRef(0);
   const lastMouseY = useRef(0);
   const autoRotateSpeed = 0.002;
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     let width = 0;
+    let currentPhi = 0;
+    let currentTheta = thetaRef.current;
     const canvas = canvasRef.current;
     const container = containerRef.current;
 
     const updateSize = () => {
       if (container) {
-        const rect = container.getBoundingClientRect();
-        width = rect.width;
+        width = container.offsetWidth;
       }
     };
 
@@ -69,17 +69,13 @@ export function LightGlobe({ className = "", config }: GlobeProps) {
       }
 
       updateSize();
-      if (width === 0) return; // Don't initialize if width is 0
+      if (width === 0) return;
 
       const pixelRatio = Math.min(2, window.devicePixelRatio);
 
-      // Set canvas dimensions to match container exactly
+      // Set canvas dimensions
       canvas.width = width * pixelRatio;
       canvas.height = width * pixelRatio;
-
-      // Set canvas display size
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${width}px`;
 
       const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
@@ -97,7 +93,7 @@ export function LightGlobe({ className = "", config }: GlobeProps) {
         height: width * pixelRatio,
         devicePixelRatio: pixelRatio,
         phi: 0,
-        theta: thetaRef.current,
+        theta: currentTheta,
         dark: config?.dark ?? 0,
         diffuse: config?.diffuse ?? 1.2,
         mapSamples: config?.mapSamples ?? 16000,
@@ -124,9 +120,9 @@ export function LightGlobe({ className = "", config }: GlobeProps) {
         offset: [0, 0],
         opacity: 0.9,
         onRender: (state) => {
-          if (!isDragging.current) phiRef.current += autoRotateSpeed;
-          state.phi = phiRef.current;
-          state.theta = thetaRef.current;
+          if (!isDragging.current) currentPhi += autoRotateSpeed;
+          state.phi = currentPhi;
+          state.theta = currentTheta;
         },
       });
     };
@@ -143,11 +139,10 @@ export function LightGlobe({ className = "", config }: GlobeProps) {
       const deltaX = e.clientX - lastMouseX.current;
       const deltaY = e.clientY - lastMouseY.current;
       const rotationSpeed = 0.01;
-      phiRef.current += deltaX * rotationSpeed;
-      thetaRef.current = Math.max(
-        -Math.PI / 3,
-        Math.min(Math.PI / 3, thetaRef.current + deltaY * rotationSpeed)
-      );
+
+      currentPhi += deltaX * rotationSpeed;
+      currentTheta = Math.max(-Math.PI / 3, Math.min(Math.PI / 3, currentTheta + deltaY * rotationSpeed));
+
       lastMouseX.current = e.clientX;
       lastMouseY.current = e.clientY;
     };
@@ -157,22 +152,20 @@ export function LightGlobe({ className = "", config }: GlobeProps) {
       if (canvas) canvas.style.cursor = "grab";
     };
 
-    // Use requestAnimationFrame for better timing
-    const init = () => {
+    // Use the same timeout as DarkGlobe
+    const timeoutId = setTimeout(() => {
       updateSize();
       initGlobe();
-    };
+    }, 100);
 
-    const rafId = requestAnimationFrame(init);
-
-    window.addEventListener("resize", init);
+    window.addEventListener("resize", updateSize);
     canvas?.addEventListener("mousedown", onMouseDown);
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseup", onMouseUp);
 
     return () => {
-      cancelAnimationFrame(rafId);
-      window.removeEventListener("resize", init);
+      clearTimeout(timeoutId);
+      window.removeEventListener("resize", updateSize);
       canvas?.removeEventListener("mousedown", onMouseDown);
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUp);

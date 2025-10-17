@@ -29,7 +29,8 @@ export function HeroSection() {
       if (target.closest('a[href="#about"]')) {
         e.preventDefault();
         const aboutSection = document.getElementById("about");
-        if (aboutSection) aboutSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (aboutSection)
+          aboutSection.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     };
 
@@ -62,14 +63,26 @@ export function HeroSection() {
     );
   }
 
-  const globeConfig = {
-    scale: 1.1,
-    dark: theme === "dark" ? 0.9 : 0,
-    diffuse: 1.2,
-    mapBrightness: 6,
-    mapSamples: 16000,
-    theta: 0.25,
-  };
+  const globeConfig =
+    theme === "dark"
+      ? {
+          theta: 0.25,
+          dark: 0.9,
+          scale: 1.1,
+          diffuse: 1.2,
+          mapSamples: 16000,
+          mapBrightness: 6,
+        }
+      : {
+          config: {
+            theta: 0.25,
+            dark: 0,
+            scale: 1.1,
+            diffuse: 1.2,
+            mapSamples: 16000,
+            mapBrightness: 6,
+          },
+        };
 
   return (
     <section
@@ -150,62 +163,64 @@ export function HeroSection() {
               </div>
             </motion.div>
 
-{/* CTA Buttons */}
-<motion.div
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.8, delay: 1.1 }}
-  className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start"
->
-  {/* Primary Button */}
-  <motion.a
-    href="#about"
-    className={`group relative flex items-center gap-2 cursor-pointer rounded-full border p-2 px-6 sm:px-8 text-center font-semibold min-h-[48px] sm:min-h-[56px] transition-all duration-300 ${
-      theme === "light"
-        ? "bg-white border-[#AED59C] text-gray-900 hover:bg-[#f7fff3] hover:text-[#AED59C]"
-        : "bg-[#020C28] border-[#AED59C] text-white hover:bg-[#0b153f] hover:text-[#AED59C]"
-    }`}
-  >
-    {/* Dot */}
-    <div
-      className={`h-2 w-2 rounded-full transition-all duration-300 group-hover:scale-125 ${
-        theme === "light" ? "bg-[#AED59C]" : "bg-[#AED59C]"
-      }`}
-    ></div>
+            {/* CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.1 }}
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start"
+            >
+              {/* Primary Button */}
+              <motion.a
+                href="#about"
+                className={`group relative flex items-center gap-2 cursor-pointer rounded-full border p-2 px-6 sm:px-8 text-center font-semibold min-h-[48px] sm:min-h-[56px] transition-all duration-300 ${
+                  theme === "light"
+                    ? "bg-white border-[#AED59C] text-gray-900 hover:bg-[#f7fff3] hover:text-[#AED59C]"
+                    : "bg-[#020C28] border-[#AED59C] text-white hover:bg-[#0b153f] hover:text-[#AED59C]"
+                }`}
+              >
+                {/* Dot */}
+                <div
+                  className={`h-2 w-2 rounded-full transition-all duration-300 group-hover:scale-125 ${
+                    theme === "light" ? "bg-[#AED59C]" : "bg-[#AED59C]"
+                  }`}
+                ></div>
 
-    {/* Text */}
-    <span className="text-sm sm:text-base transition-all duration-300">
-      Explore Solutions
-    </span>
+                {/* Text */}
+                <span className="text-sm sm:text-base transition-all duration-300">
+                  Explore Solutions
+                </span>
 
-    {/* Arrow */}
-    <ArrowRight className="w-4 h-4 ml-1 transition-transform duration-300 group-hover:translate-x-2" />
-  </motion.a>
+                {/* Arrow */}
+                <ArrowRight className="w-4 h-4 ml-1 transition-transform duration-300 group-hover:translate-x-2" />
+              </motion.a>
 
-  {/* Secondary Button */}
-  <motion.button
-    className={`group relative flex items-center gap-2 cursor-pointer rounded-full border-2 p-2 px-6 sm:px-8 text-center font-semibold min-h-[48px] sm:min-h-[56px] transition-all duration-300 ${
-      theme === "light"
-        ? "border-gray-300 text-gray-700 hover:border-[#AED59C] hover:text-[#AED59C] hover:bg-gray-100"
-        : "border-white/20 text-white/80 hover:border-[#AED59C] hover:text-[#AED59C] hover:bg-white/10"
-    }`}
-  >
-    {/* Dot */}
-    <div
-      className={`h-2 w-2 rounded-full transition-all duration-300 group-hover:scale-125 ${
-        theme === "light" ? "bg-gray-400 group-hover:bg-[#AED59C]" : "bg-white/40 group-hover:bg-[#AED59C]"
-      }`}
-    ></div>
+              {/* Secondary Button */}
+              <motion.button
+                className={`group relative flex items-center gap-2 cursor-pointer rounded-full border-2 p-2 px-6 sm:px-8 text-center font-semibold min-h-[48px] sm:min-h-[56px] transition-all duration-300 ${
+                  theme === "light"
+                    ? "border-gray-300 text-gray-700 hover:border-[#AED59C] hover:text-[#AED59C] hover:bg-gray-100"
+                    : "border-white/20 text-white/80 hover:border-[#AED59C] hover:text-[#AED59C] hover:bg-white/10"
+                }`}
+              >
+                {/* Dot */}
+                <div
+                  className={`h-2 w-2 rounded-full transition-all duration-300 group-hover:scale-125 ${
+                    theme === "light"
+                      ? "bg-gray-400 group-hover:bg-[#AED59C]"
+                      : "bg-white/40 group-hover:bg-[#AED59C]"
+                  }`}
+                ></div>
 
-    {/* Text */}
-    <span className="text-sm sm:text-base transition-all duration-300">
-      View Case Studies
-    </span>
+                {/* Text */}
+                <span className="text-sm sm:text-base transition-all duration-300">
+                  View Case Studies
+                </span>
 
-    {/* Arrow */}
-    <Play className="w-4 h-4 ml-1 transition-transform duration-300 group-hover:translate-x-2" />
-  </motion.button>
-</motion.div>
+                {/* Arrow */}
+                <Play className="w-4 h-4 ml-1 transition-transform duration-300 group-hover:translate-x-2" />
+              </motion.button>
+            </motion.div>
 
             {/* Trusted Flags */}
             <motion.div
@@ -216,7 +231,9 @@ export function HeroSection() {
                 theme === "light" ? "text-gray-600" : "text-white/60"
               }`}
             >
-              <span className="font-medium whitespace-nowrap">Trusted by governments worldwide</span>
+              <span className="font-medium whitespace-nowrap">
+                Trusted by governments worldwide
+              </span>
               <div className="flex items-center gap-2 sm:gap-3">
                 {["🇺🇸", "🇿🇲", "🇷🇼", "🇱🇷", "🇬🇾"].map((flag, i) => (
                   <motion.span
@@ -224,9 +241,9 @@ export function HeroSection() {
                     initial={{ opacity: 0, scale: 0 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.3, delay: 1.5 + i * 0.1 }}
-                    whileHover={{ 
-                      scale: 1.2, 
-                      y: -2 
+                    whileHover={{
+                      scale: 1.2,
+                      y: -2,
                     }}
                     className="text-base sm:text-lg transition-transform duration-300 cursor-help"
                   >
@@ -246,21 +263,18 @@ export function HeroSection() {
               className="flex-1 flex items-center justify-center lg:justify-end w-full"
             >
               {theme === "dark" ? (
-  <DarkGlobe 
-    className="w-full max-w-md lg:max-w-md" 
-    theta={globeConfig.theta}
-    dark={globeConfig.dark}
-    scale={globeConfig.scale}
-    diffuse={globeConfig.diffuse}
-    mapSamples={globeConfig.mapSamples}
-    mapBrightness={globeConfig.mapBrightness}
-  />
-) : (
-  <LightGlobe 
-    className="w-full max-w-md lg:max-w-md" 
-    config={globeConfig} 
-  />
-)}
+                <DarkGlobe
+                  key="dark-globe" // Add key
+                  className="w-full max-w-md lg:max-w-md"
+                  {...globeConfig}
+                />
+              ) : (
+                <LightGlobe
+                  key="light-globe" // Add key
+                  className="w-full max-w-md lg:max-w-md"
+                  {...globeConfig}
+                />
+              )}
             </motion.div>
           )}
         </div>
@@ -274,8 +288,8 @@ export function HeroSection() {
         >
           <motion.div
             className={`flex flex-col items-center space-y-2 transition-colors duration-300 cursor-pointer group ${
-              theme === "light" 
-                ? "text-gray-600 hover:text-[#AED59C]" 
+              theme === "light"
+                ? "text-gray-600 hover:text-[#AED59C]"
                 : "text-white/60 hover:text-[#AED59C]"
             }`}
             whileHover={{ scale: 1.05 }}
@@ -286,27 +300,27 @@ export function HeroSection() {
                 <motion.div
                   key={dot}
                   className={`w-1 h-1 rounded-full ${
-                    theme === "light" 
-                      ? "bg-gray-400 group-hover:bg-[#AED59C]" 
+                    theme === "light"
+                      ? "bg-gray-400 group-hover:bg-[#AED59C]"
                       : "bg-white/40 group-hover:bg-[#AED59C]"
                   }`}
                   animate={{
                     y: [0, -4, 0],
-                    opacity: [0.5, 1, 0.5]
+                    opacity: [0.5, 1, 0.5],
                   }}
                   transition={{
                     duration: 1.5,
                     repeat: Infinity,
-                    delay: dot * 0.2
+                    delay: dot * 0.2,
                   }}
                 />
               ))}
             </div>
-            
+
             <span className="text-xs font-medium tracking-wider uppercase group-hover:font-semibold transition-all duration-300">
               Discover More
             </span>
-            
+
             {/* Enhanced Arrow */}
             <motion.div
               className={`p-2 rounded-full border ${
@@ -314,17 +328,17 @@ export function HeroSection() {
                   ? "border-gray-300 bg-white/80 group-hover:border-[#AED59C] group-hover:bg-[#AED59C]/10"
                   : "border-white/20 bg-white/5 group-hover:border-[#AED59C] group-hover:bg-[#AED59C]/10"
               }`}
-              animate={{ 
-                y: [0, 6, 0] 
+              animate={{
+                y: [0, 6, 0],
               }}
-              transition={{ 
-                duration: 2, 
+              transition={{
+                duration: 2,
                 repeat: Infinity,
-                ease: "easeInOut"
+                ease: "easeInOut",
               }}
               whileHover={{
                 scale: 1.1,
-                transition: { duration: 0.2 }
+                transition: { duration: 0.2 },
               }}
             >
               <ArrowDown className="w-3 h-3 sm:w-4 sm:h-4" />
