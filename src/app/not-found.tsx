@@ -2,36 +2,72 @@
 
 import Link from 'next/link';
 import { Home, ArrowLeft } from 'lucide-react';
+import { useTheme } from 'next-themes';
+import { cn } from '@/lib/utils';
 
 export default function NotFound() {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-6">
+    <div
+      className={cn(
+        "min-h-screen flex items-center justify-center px-6 transition-colors duration-300",
+        isDark ? "bg-[#293289]" : "bg-gray-50"
+      )}
+    >
       <div className="text-center">
-        <div className="w-32 h-32 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-8">
-          <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-2xl">404</span>
+        {/* 404 Circle */}
+        <div className={cn(
+          "w-36 h-36 mx-auto mb-8 flex items-center justify-center rounded-full transition-colors duration-300",
+          isDark ? "bg-blue-400/20" : "bg-blue-400/10"
+        )}>
+          <div className={cn(
+            "w-24 h-24 flex items-center justify-center rounded-full transition-colors duration-300",
+            isDark ? "bg-blue-400" : "bg-blue-400"
+          )}>
+            <span className="text-white font-bold text-3xl">404</span>
           </div>
         </div>
-        
-        <h1 className="text-4xl md:text-6xl font-heading font-bold text-foreground mb-4">
+
+        {/* Heading */}
+        <h1 className={cn(
+          "text-5xl md:text-6xl font-bold mb-4 transition-colors duration-300",
+          isDark ? "text-white" : "text-blue-400"
+        )}>
           Page Not Found
         </h1>
-        
-        <p className="text-xl text-foreground/70 mb-8 max-w-md mx-auto">
+
+        {/* Description */}
+        <p className={cn(
+          "text-lg md:text-xl mb-8 max-w-md mx-auto transition-colors duration-300",
+          isDark ? "text-white/80" : "text-blue-400/80"
+        )}>
           The page you&apos;re looking for doesn&apos;t exist or has been moved.
         </p>
-        
+
+        {/* Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="/"
-            className="inline-flex items-center justify-center px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
+            className={cn(
+              "inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105",
+              isDark 
+                ? "bg-blue-400 text-white hover:bg-blue-500" 
+                : "bg-blue-400 text-white hover:bg-blue-500"
+            )}
           >
             <Home className="w-4 h-4 mr-2" />
             Back to Home
           </Link>
           <button
             onClick={() => window.history.back()}
-            className="inline-flex items-center justify-center px-6 py-3 border border-primary text-primary rounded-lg font-medium hover:bg-primary/10 transition-colors"
+            className={cn(
+              "inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium border transition-all duration-300 hover:scale-105",
+              isDark 
+                ? "border-blue-400 text-blue-400 bg-transparent hover:bg-blue-400/10" 
+                : "border-blue-400 text-blue-400 bg-white hover:bg-blue-400/5"
+            )}
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Go Back
