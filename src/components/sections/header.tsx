@@ -132,7 +132,6 @@ export function Header() {
         <nav className="hidden lg:flex items-center space-x-1 xl:space-x-2">
           {navigationItems.map((item, index) => {
             const isActive = activeSection === item.id;
-            const IconComponent = item.icon;
 
             return (
               <motion.div
@@ -153,7 +152,6 @@ export function Header() {
                   whileTap={{ scale: 0.97 }}
                 >
                   <span className="relative flex items-center gap-1 z-10">
-                    {IconComponent && <IconComponent className="w-4 h-4" />}
                     {item.name}
                   </span>
 
