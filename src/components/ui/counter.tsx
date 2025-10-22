@@ -9,6 +9,7 @@ interface CounterProps {
   suffix?: string;
   prefix?: string;
   className?: string;
+  decimals?: number;
 }
 
 export function Counter({ end, duration = 2, suffix = "", prefix = "", className = "" }: CounterProps) {

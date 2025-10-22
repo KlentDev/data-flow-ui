@@ -13,10 +13,9 @@ interface MobileNavProps {
 export function MobileNav({ items, activeSection }: MobileNavProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const fullMenuItems = [
-    { name: 'Home', href: '/', id: 'home' },
-    ...items
-  ];
+  // Remove duplicate Home
+  const filteredItems = items.filter(item => item.id !== 'home');
+  const fullMenuItems = [{ name: 'Home', href: '/', id: 'home' }, ...filteredItems];
 
   return (
     <div className="lg:hidden">
@@ -28,32 +27,28 @@ export function MobileNav({ items, activeSection }: MobileNavProps) {
         whileTap={{ scale: 0.95 }}
         aria-label="Toggle menu"
       >
-        {isOpen ? (
-          <X className="w-5 h-5 text-foreground" />
-        ) : (
-          <Menu className="w-5 h-5 text-foreground" />
-        )}
+        {isOpen ? <X className="w-5 h-5 text-foreground" /> : <Menu className="w-5 h-5 text-foreground" />}
       </motion.button>
 
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Backdrop */}
+            {/* Backdrop with solid blue */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40"
+              className="fixed inset-0 bg-blue-300 z-40"
               onClick={() => setIsOpen(false)}
             />
-            
-            {/* Menu Panel */}
+
+            {/* Menu Panel with solid blue background */}
             <motion.div
               initial={{ opacity: 0, x: '100%' }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed top-0 right-0 bottom-0 w-80 bg-background border-l border-primary/20 shadow-2xl z-50 p-6"
+              className="fixed top-0 right-0 bottom-0 w-80 bg-blue-300 border-l border-primary/20 shadow-2xl z-50 p-6"
             >
               {/* Header */}
               <div className="flex items-center justify-between mb-8">
@@ -79,10 +74,9 @@ export function MobileNav({ items, activeSection }: MobileNavProps) {
               <nav className="space-y-2">
                 {fullMenuItems.map((item, index) => {
                   const isActive = activeSection === item.id;
-                  
                   return (
                     <motion.a
-                      key={item.name}
+                      key={item.id}
                       href={item.href}
                       onClick={() => setIsOpen(false)}
                       className={`flex items-center space-x-3 py-3 px-4 rounded-xl transition-all duration-200 font-medium group ${
@@ -96,7 +90,7 @@ export function MobileNav({ items, activeSection }: MobileNavProps) {
                       whileHover={{ x: 4, scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      {item.name === 'Home' && (
+                      {item.id === 'home' && (
                         <Home className={`w-4 h-4 ${isActive ? 'text-primary' : 'text-foreground/60 group-hover:text-primary'}`} />
                       )}
                       <span className="flex-1">{item.name}</span>

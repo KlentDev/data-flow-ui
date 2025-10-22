@@ -4,14 +4,15 @@ import { useEffect, useState } from 'react';
 import { useScroll } from 'framer-motion';
 import { ScrollToTop } from '@/components/ui/scroll-to-top';
 import { HeroSection } from '@/components/sections/hero';
-import { AboutSection } from '@/components/sections/about';
 import { ScrollProgress } from '@/components/ui/use-scroll';
 import { EnhancedStats } from '@/components/sections/enhanced-stats';
-import { GlobalImpactSection } from '@/components/sections/global';
-import { SolutionsSection } from '@/components/sections/solutions';
-import { ChallengesSection } from '@/components/sections/challenge';
-import { TechnologySection } from '@/components/sections/technology';
 import { ContactSection } from '@/components/sections/contact';
+import { CaseStudiesSection } from '@/components/sections/case-studies';
+import { PricingSection } from '@/components/sections/pricing';
+import { TeamSection } from '@/components/sections/teams';
+import { IntegrationEcosystemSection } from '@/components/sections/ecosystem';
+import AboutSection from '@/components/sections/about';
+import FeaturesDeepDive from '@/components/sections/features';
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
@@ -42,10 +43,11 @@ export default function Home() {
         <HeroSection /> {/* Background is now inside HeroSection only */}
         <EnhancedStats />
         <AboutSection />
-        <SolutionsSection />
-        <ChallengesSection />
-        <TechnologySection />
-        <GlobalImpactSection />
+        <FeaturesDeepDive />
+        <IntegrationEcosystemSection />
+        <TeamSection />
+        <PricingSection />
+        <CaseStudiesSection />
         <ContactSection />
       </main>
     </div>

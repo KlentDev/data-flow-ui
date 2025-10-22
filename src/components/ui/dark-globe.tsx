@@ -122,21 +122,65 @@ export function DarkGlobe({
           opacity: 0.9,
           scale,
           offset: [0, 0],
-          markers: [
-            { location: [-13.1339, 27.8493], size: 0.03 },
-            { location: [-1.9403, 29.8739], size: 0.03 },
-            { location: [6.4281, -9.4295], size: 0.03 },
-            { location: [5.0, -59.75], size: 0.03 },
-            { location: [17.3578, -62.782998], size: 0.03 },
-            { location: [8.4657, -13.2317], size: 0.03 },
-            { location: [39.2904, -76.6122], size: 0.03 },
-            { location: [38.9784, -92.4194], size: 0.03 },
-            { location: [39.9612, -82.9988], size: 0.03 },
-            { location: [27.9944, -81.7603], size: 0.03 },
-            { location: [36.7783, -119.4179], size: 0.03 },
-            { location: [39.321, -111.0937], size: 0.03 },
-            { location: [40.7128, -74.006], size: 0.03 },
-          ],
+         markers: [
+  // North America
+  { location: [37.7749, -122.4194], size: 0.03 }, // San Francisco, USA
+  { location: [40.7128, -74.006], size: 0.03 }, // New York, USA
+  { location: [45.4215, -75.6992], size: 0.03 }, // Ottawa, Canada
+  { location: [19.4326, -99.1332], size: 0.03 }, // Mexico City, Mexico
+  { location: [14.6349, -90.5069], size: 0.03 }, // Guatemala City, Guatemala
+  { location: [9.7489, -83.7534], size: 0.03 }, // Costa Rica
+  { location: [4.7109, -74.0721], size: 0.03 }, // Bogotá, Colombia
+  { location: [-12.0464, -77.0428], size: 0.03 }, // Lima, Peru
+  { location: [-34.6037, -58.3816], size: 0.03 }, // Buenos Aires, Argentina
+  { location: [-33.4489, -70.6693], size: 0.03 }, // Santiago, Chile
+
+  // Europe
+  { location: [51.5074, -0.1278], size: 0.03 }, // London, UK
+  { location: [48.8566, 2.3522], size: 0.03 }, // Paris, France
+  { location: [52.5200, 13.4050], size: 0.03 }, // Berlin, Germany
+  { location: [41.9028, 12.4964], size: 0.03 }, // Rome, Italy
+  { location: [40.4168, -3.7038], size: 0.03 }, // Madrid, Spain
+  { location: [59.3293, 18.0686], size: 0.03 }, // Stockholm, Sweden
+  { location: [50.0755, 14.4378], size: 0.03 }, // Prague, Czechia
+  { location: [60.1699, 24.9384], size: 0.03 }, // Helsinki, Finland
+  { location: [47.4979, 19.0402], size: 0.03 }, // Budapest, Hungary
+  { location: [55.7558, 37.6173], size: 0.03 }, // Moscow, Russia
+
+  // Africa
+  { location: [30.0444, 31.2357], size: 0.03 }, // Cairo, Egypt
+  { location: [6.5244, 3.3792], size: 0.03 }, // Lagos, Nigeria
+  { location: [0.3476, 32.5825], size: 0.03 }, // Kampala, Uganda
+  { location: [-1.2921, 36.8219], size: 0.03 }, // Nairobi, Kenya
+  { location: [-26.2041, 28.0473], size: 0.03 }, // Johannesburg, South Africa
+  { location: [14.7167, -17.4677], size: 0.03 }, // Dakar, Senegal
+  { location: [5.6037, -0.1870], size: 0.03 }, // Accra, Ghana
+  { location: [9.0579, 7.4951], size: 0.03 }, // Abuja, Nigeria
+  { location: [-4.0435, 39.6682], size: 0.03 }, // Mombasa, Kenya
+  { location: [-18.8792, 47.5079], size: 0.03 }, // Antananarivo, Madagascar
+
+  // Asia
+  { location: [35.6895, 139.6917], size: 0.03 }, // Tokyo, Japan
+  { location: [37.5665, 126.978], size: 0.03 }, // Seoul, South Korea
+  { location: [31.2304, 121.4737], size: 0.03 }, // Shanghai, China
+  { location: [22.3193, 114.1694], size: 0.03 }, // Hong Kong
+  { location: [13.7563, 100.5018], size: 0.03 }, // Bangkok, Thailand
+  { location: [28.6139, 77.209], size: 0.03 }, // New Delhi, India
+  { location: [1.3521, 103.8198], size: 0.03 }, // Singapore
+  { location: [3.139, 101.6869], size: 0.03 }, // Kuala Lumpur, Malaysia
+  { location: [39.9042, 116.4074], size: 0.03 }, // Beijing, China
+  { location: [24.7136, 46.6753], size: 0.03 }, // Riyadh, Saudi Arabia
+
+  // Oceania
+  { location: [-33.8688, 151.2093], size: 0.03 }, // Sydney, Australia
+  { location: [-37.8136, 144.9631], size: 0.03 }, // Melbourne, Australia
+  { location: [-36.8485, 174.7633], size: 0.03 }, // Auckland, New Zealand
+  { location: [-9.4438, 147.1803], size: 0.03 }, // Port Moresby, PNG
+  { location: [-17.7134, 178.065], size: 0.03 }, // Suva, Fiji
+  { location: [-6.2146, 106.8451], size: 0.03 }, // Jakarta, Indonesia
+  { location: [7.8731, 80.7718], size: 0.03 }, // Sri Lanka (center)
+  { location: [-22.9083, -43.1964], size: 0.03 }, // Rio de Janeiro, Brazil
+],
           onRender: (state) => {
             if (!isDragging.current) currentPhi += autoRotateSpeed;
             state.phi = currentPhi;

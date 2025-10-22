@@ -1,184 +1,317 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { Target, Shield, Users, Cpu, ArrowRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import { useRef, useEffect, useState, FC } from "react";
+import {
+  Globe,
+  Shield,
+  Activity,
+  BarChart3,
+  Server,
+  Eye,
+  Zap,
+  TrendingUp,
+  GitBranch,
+  ShieldCheck,
+  Workflow,
+  Cloud,
+} from "lucide-react";
 import { useTheme } from "next-themes";
+import { cn } from "@/lib/utils";
 
-export function AboutSection() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+interface BentoCardData {
+  icon: FC<{ className?: string }>;
+  illustration: FC<{ className?: string; strokeWidth?: number }>;
+  title: string;
+  description: string;
+  label: string;
+  gradient: string;
+  hoverGradient: string;
+  iconColor: string;
+  stats: string;
+  illustrationProps: {
+    className: string;
+    strokeWidth?: number;
+  };
+}
 
-  const highlights = [
-    { icon: Shield, text: "Blockchain Security", type: "dark" },
-    { icon: Cpu, text: "AI-Powered Solutions", type: "clear" },
-    { icon: Users, text: "Citizen Empowerment", type: "dark" },
+export default function AboutSection() {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+
+  const bentoCards: BentoCardData[] = [
+    {
+      icon: Activity,
+      illustration: Workflow,
+      title: "Real-time Analytics",
+      description:
+        "Process millions of data points per second with adaptive, low-latency AI computation.",
+      label: "Analytics",
+      gradient: "from-blue-500/20 to-cyan-500/20",
+      hoverGradient: "from-blue-500/30 to-cyan-500/30",
+      iconColor: "text-blue-400",
+      stats: "2.5M/sec",
+      illustrationProps: { className: "w-16 h-16 text-blue-400/20", strokeWidth: 1 },
+    },
+    {
+      icon: Globe,
+      illustration: GitBranch,
+      title: "Global Scalability",
+      description:
+        "Deployed across 52+ regions with intelligent routing and edge optimization.",
+      label: "Infrastructure",
+      gradient: "from-green-500/20 to-emerald-500/20",
+      hoverGradient: "from-green-500/30 to-emerald-500/30",
+      iconColor: "text-green-400",
+      stats: "52+ Regions",
+      illustrationProps: { className: "w-16 h-16 text-green-400/20", strokeWidth: 1 },
+    },
+    {
+      icon: Shield,
+      illustration: ShieldCheck,
+      title: "Enterprise Security",
+      description:
+        "Zero-trust protocols, SOC2 compliance, and 256-bit encryption built for enterprise scale.",
+      label: "Security",
+      gradient: "from-purple-500/20 to-violet-500/20",
+      hoverGradient: "from-purple-500/30 to-violet-500/30",
+      iconColor: "text-purple-400",
+      stats: "256-bit",
+      illustrationProps: { className: "w-16 h-16 text-purple-400/20", strokeWidth: 1 },
+    },
+    {
+      icon: BarChart3,
+      illustration: TrendingUp,
+      title: "AI Insights",
+      description:
+        "Transform raw data into actionable intelligence with ML-driven predictions.",
+      label: "Intelligence",
+      gradient: "from-orange-500/20 to-amber-500/20",
+      hoverGradient: "from-orange-500/30 to-amber-500/30",
+      iconColor: "text-orange-400",
+      stats: "AI-Powered",
+      illustrationProps: { className: "w-16 h-16 text-orange-400/20", strokeWidth: 1 },
+    },
+    {
+      icon: Eye,
+      illustration: Workflow,
+      title: "Live Monitoring",
+      description:
+        "Predict, visualize, and track system health through live observability dashboards.",
+      label: "Monitoring",
+      gradient: "from-red-500/20 to-pink-500/20",
+      hoverGradient: "from-red-500/30 to-pink-500/30",
+      iconColor: "text-red-400",
+      stats: "24/7",
+      illustrationProps: { className: "w-16 h-16 text-red-400/20", strokeWidth: 1 },
+    },
+    {
+      icon: Server,
+      illustration: Cloud,
+      title: "High Availability",
+      description:
+        "Ensure 99.99% uptime through redundant multi-region clusters and auto-healing nodes.",
+      label: "Reliability",
+      gradient: "from-indigo-500/20 to-blue-500/20",
+      hoverGradient: "from-indigo-500/30 to-blue-500/30",
+      iconColor: "text-indigo-400",
+      stats: "99.99%",
+      illustrationProps: { className: "w-16 h-16 text-indigo-400/20", strokeWidth: 1 },
+    },
   ];
 
   return (
     <section
       id="about"
-      ref={ref}
-      className="relative py-24 md:py-32 bg-gradient-to-b from-background via-background to-primary/5 transition-colors duration-700"
+      className={cn(
+        "relative py-20 md:py-24 overflow-hidden transition-colors duration-700",
+        isDark ? "bg-[#293289]" : "bg-white"
+      )}
     >
-      {/* Background glow */}
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_right,hsla(var(--primary)/0.15)_0%,transparent_70%)] opacity-50 dark:opacity-25" />
+{/* Ambient Background */}
+<div className="absolute inset-0 overflow-hidden">
+  {/* Radial Gradient Overlay */}
+  <div
+    className={cn(
+      "absolute inset-0 opacity-40",
+      isDark
+        ? "bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.12)_0%,transparent_70%)]"
+        : "bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.08)_0%,transparent_70%)]"
+    )}
+  />
 
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8 }}
-        className="container mx-auto px-4 sm:px-6 relative z-10"
-      >
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className={cn(
-            "inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium border shadow-sm w-fit mb-12",
-            isDark
-              ? "bg-white/10 text-white border-white/20"
-              : "bg-primary/15 text-foreground/90 border-primary/30"
-          )}
-        >
-          <Target className={cn("w-4 h-4", isDark ? "text-white" : "text-primary")} />
-          <span>About MLG</span>
+  {/* Floating Particles */}
+  {[...Array(12)].map((_, i) => (
+    <motion.div
+      key={i}
+      className="absolute w-1 h-1 rounded-full bg-blue-400/40"
+      style={{ left: `${8 + i * 7}%`, top: `${10 + (i % 6) * 13}%` }}
+      animate={{ y: [0, -25, 0], opacity: [0.3, 0.7, 0.3] }}
+      transition={{ duration: 5 + i * 0.5, repeat: Infinity, delay: i * 0.4, ease: "easeInOut" }}
+    />
+  ))}
+
+  {/* Large Blurred Circles - All Four Corners (Matching Radial Gradient Color) */}
+  <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-500/12 rounded-full blur-3xl" />
+  <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-500/12 rounded-full blur-3xl" />
+  <div className="absolute -top-40 -left-40 w-96 h-96 bg-blue-500/12 rounded-full blur-3xl" />
+  <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-blue-500/12 rounded-full blur-3xl" />
+</div>
+
+
+
+
+      {/* Content */}
+      <div className="container relative z-10 mx-auto px-6">
+        {/* Header */}
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-sm font-medium mb-4">
+            <Zap className="w-4 h-4" />
+            Platform Capabilities
+          </div>
+          <h2 className={cn("text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4", isDark ? "text-white" : "text-gray-900")}>
+            Enterprise-Grade{" "}
+            <span className="bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent">
+              Data Intelligence
+            </span>
+          </h2>
+          <p className={cn("text-lg max-w-3xl mx-auto leading-relaxed", isDark ? "text-gray-300" : "text-gray-600")}>
+            Power mission-critical operations with AI-driven insights, global scalability, and real-time performance.
+          </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-          {/* Left Column: Heading */}
-          <motion.h2
-            initial={{ opacity: 0, x: -20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-foreground leading-tight space-y-2"
-          >
-            <span className="block">Revolutionizing Land Governance</span>
-            <span className="block text-primary drop-shadow-[0_0_10px_hsl(var(--primary)/0.5)]">
-              Through Digital Innovation
-            </span>
-          </motion.h2>
-
-          {/* Right Column */}
-          <div className="flex flex-col gap-8">
-            {/* Description */}
-            <motion.p
-              initial={{ opacity: 0, x: 20 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className={cn("text-base md:text-lg leading-relaxed", isDark ? "text-white/80" : "text-foreground/90")}
-            >
-              Medici Land Governance (MLG) is a global technology company transforming how governments
-              manage land, property, and public records. We combine AI, machine learning, and blockchain
-              to create secure, transparent, and efficient systems for land administration, property
-              transactions, and digital governance.
-            </motion.p>
-
-            {/* Highlight Cards */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-6"
-            >
-              {highlights.map((item, index) => (
-                <motion.div
-                  key={item.text}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
-                  whileHover={{ y: -5, scale: 1.02 }}
-                  className={cn(
-                    "group relative rounded-2xl p-6 border-2 backdrop-blur-xl transition-all duration-500 flex flex-col items-center text-center cursor-pointer min-h-[180px]",
-                    // Dark cards
-                    item.type === "dark" && [
-                      "bg-[#020C28] border-[#020C28]/30 text-white",
-                      "hover:bg-[#020C28]/90 hover:border-[#020C28]/40 hover:shadow-[#020C28]/20"
-                    ],
-                    // Clear cards
-                    item.type === "clear" && [
-                      isDark
-                        ? "bg-white/[0.05] border-white/20 text-white hover:bg-white/[0.1] hover:border-white/30 hover:shadow-white/10"
-                        : "bg-white border-gray-200 text-gray-900 hover:bg-gray-50 hover:border-primary/30 hover:shadow-primary/10"
-                    ]
-                  )}
-                >
-                  {/* Icon */}
-                  <div
-                    className={cn(
-                      "w-16 h-16 rounded-xl flex items-center justify-center mb-4 border transition-transform duration-300 group-hover:scale-110",
-                      item.type === "dark" ? "bg-white/10 border-white/20" : "bg-primary/20 border-primary/30"
-                    )}
-                  >
-                    <item.icon className={cn("w-8 h-8", item.type === "dark" ? "text-white" : "text-primary")} />
-                  </div>
-                  <span className="text-base font-semibold">{item.text}</span>
-                </motion.div>
-              ))}
-            </motion.div>
-
-            {/* Button */}
-            <motion.div
-              className="relative flex flex-col items-center lg:items-end mt-10"
-              initial={{ opacity: 0, x: 60 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.7, delay: 0.6, ease: 'easeOut' }}
-            >
-              <InteractiveButton href="/about">
-                Learn about our mission
-              </InteractiveButton>
-            </motion.div>
-          </div>
-        </div>
-      </motion.div>
+        {/* Bento Grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 max-w-7xl mx-auto"
+        >
+          {bentoCards.map((card, index) => (
+            <BentoCard key={card.title} card={card} index={index} isDark={isDark} />
+          ))}
+        </motion.div>
+      </div>
     </section>
   );
 }
 
-// Theme-aware Interactive Button
-interface InteractiveButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  href?: string;
-  children: React.ReactNode;
+interface BentoCardProps {
+  card: BentoCardData;
+  index: number;
+  isDark: boolean;
 }
 
-function InteractiveButton({ children, className, href, ...props }: InteractiveButtonProps) {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+const BentoCard: FC<BentoCardProps> = ({ card, index, isDark }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [mouse, setMouse] = useState({ x: 50, y: 50 });
+  const [hover, setHover] = useState(false);
 
-  const buttonClasses = cn(
-    "group relative overflow-hidden rounded-full border px-8 py-3 font-semibold flex items-center justify-center transition-all duration-300 min-h-[52px] flex items-center gap-2",
-    isDark
-      ? "bg-[#020C28] border-[#AED59C] text-white hover:bg-[#021038] hover:text-[#AED59C]"
-      : "bg-white border-[#AED59C] text-gray-900 hover:bg-[#f7fff3] hover:text-[#020C28]",
-    className
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const handle = (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect();
+      setMouse({
+        x: ((e.clientX - rect.left) / rect.width) * 100,
+        y: ((e.clientY - rect.top) / rect.height) * 100,
+      });
+    };
+    el.addEventListener("mousemove", handle);
+    return () => el.removeEventListener("mousemove", handle);
+  }, []);
+
+  const Illustration = card.illustration;
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.95, y: 20 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: index * 0.1, type: "spring", stiffness: 100 }}
+      whileHover={{ y: -6, scale: 1.02 }}
+      onHoverStart={() => setHover(true)}
+      onHoverEnd={() => setHover(false)}
+      className={cn(
+        "group relative rounded-2xl p-6 lg:p-8 border backdrop-blur-xl",
+        "flex flex-col justify-between aspect-[4/3] cursor-pointer transition-all duration-500",
+        isDark        ? "bg-blue-950/20 border-blue-900/50 hover:border-blue-500/40 hover:bg-blue-950/40"
+        : "bg-white/80 border-gray-200 hover:border-blue-500/40 hover:bg-white/90 shadow-[0_8px_20px_-6px_rgba(59,130,246,0.1)]"
+      )}
+      style={{
+        background: hover
+          ? `radial-gradient(circle at ${mouse.x}% ${mouse.y}%, rgba(59,130,246,0.08) 0%, transparent 60%)`
+          : undefined,
+      }}
+    >
+      {/* Faint illustration */}
+      <div className="absolute inset-0 flex items-center justify-end pr-4 pb-4 opacity-40">
+        <Illustration
+          {...card.illustrationProps}
+          className={cn(
+            card.illustrationProps.className,
+            "transition-transform duration-700",
+            hover ? "scale-110 opacity-60" : "scale-100 opacity-40"
+          )}
+        />
+      </div>
+
+      {/* Icon & Stat */}
+      <div className="relative z-10 flex items-start justify-between mb-4">
+        <div
+          className={cn(
+            "p-3 rounded-xl backdrop-blur-sm",
+            `bg-gradient-to-br ${card.gradient}`
+          )}
+        >
+          <card.icon className={cn("w-5 h-5 lg:w-6 lg:h-6", card.iconColor)} />
+        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: index * 0.1 + 0.2 }}
+          className="px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm border bg-white/70 dark:bg-white/5 border-white/10 text-foreground/80"
+        >
+          {card.stats}
+        </motion.div>
+      </div>
+
+      {/* Title & Description */}
+      <div className="relative z-10 flex-1 flex flex-col justify-center">
+        <h3
+          className={cn(
+            "text-lg lg:text-xl font-bold mb-2 leading-tight transition-colors duration-300",
+            isDark
+              ? "text-white group-hover:text-blue-400"
+              : "text-gray-900 group-hover:text-blue-600"
+          )}
+        >
+          {card.title}
+        </h3>
+        <p
+          className={cn(
+            "text-sm lg:text-base leading-relaxed",
+            isDark ? "text-gray-400" : "text-gray-600"
+          )}
+        >
+          {card.description}
+        </p>
+      </div>
+
+      {/* Label */}
+      <div className="relative z-10 mt-4">
+        <span
+          className={cn(
+            "text-xs font-semibold px-3 py-1.5 rounded-full border backdrop-blur-sm transition-all duration-300",
+            isDark
+              ? "bg-white/5 border-white/10 text-gray-400 group-hover:text-blue-400 group-hover:bg-blue-950/20"
+              : "bg-white/80 border-gray-200 text-gray-600 group-hover:text-blue-600 group-hover:bg-blue-50"
+          )}
+        >
+          {card.label}
+        </span>
+      </div>
+    </motion.div>
   );
+};
 
-  const ButtonContent = (
-    <button className={buttonClasses} {...props}>
-      <span className="relative z-10 flex items-center gap-2">
-        {children}
-        <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-      </span>
-      <span
-        className={cn(
-          "absolute inset-0 rounded-full transition-all duration-300",
-          isDark ? "bg-[#020C28]/20 group-hover:bg-[#AED59C]/20" : "bg-white/20 group-hover:bg-[#AED59C]/20"
-        )}
-      />
-    </button>
-  );
-
-  if (href) {
-    return (
-      <motion.a href={href} whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="inline-block">
-        {ButtonContent}
-      </motion.a>
-    );
-  }
-
-  return <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>{ButtonContent}</motion.div>;
-}
